@@ -8,3 +8,4 @@ SLMS.pro.user
 SLMS.pro.user
 Makefile.Release
 Makefile.Debug
+.qmake.stash
