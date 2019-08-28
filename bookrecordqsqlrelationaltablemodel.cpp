@@ -55,7 +55,7 @@ bool BookRecordQSqlRelationalTableModel::setData(const QModelIndex & index, cons
 {
     if (value.toString().size() < 1 && role == Qt::EditRole)
     {
-        qDebug() << "setData empty data detected at index col" << index.column();
+        qDebug() << "setData - Empty Data Detected At Index Col:" << index.column();
         QVariant new_value = QVariant(QString("UNCONFIGURED UNKNOWN_COLUMN"));
         if (index.column() == AdminPanel::BookRecordTableViewColumns::ISBN13)
             new_value = QVariant(QString("UNCONFIGURED ISBN13"));
@@ -70,6 +70,9 @@ bool BookRecordQSqlRelationalTableModel::setData(const QModelIndex & index, cons
         emit DataIsEmpty(index);
         return QSqlRelationalTableModel::setData(index, new_value, role);
     }
-    qDebug() << "setData passthrough:" << value.toString() << "role" << role;
-    return QSqlRelationalTableModel::setData(index, value, role);
+    else
+    {
+        qDebug() << "setData - Data Passthrough:" << value.toString() << "Role:" << role;
+        return QSqlRelationalTableModel::setData(index, value, role);
+    }
 }

@@ -72,16 +72,16 @@ LoginDialog::LoginDialog(QWidget *parent) :
     }
 }
 
-void LoginDialog::HashBySha512(const char *plain_text, char *hex_hash)
-{
-    QCryptographicHash sha512_hasher(QCryptographicHash::Sha512);
-    sha512_hasher.addData(plain_text, strlen(plain_text));
-    strncpy(hex_hash, sha512_hasher.result().toHex(), 128);
-}
-
 LoginDialog::~LoginDialog()
 {
     delete ui;
+}
+
+void LoginDialog::HashBySha512(const char *plain_text, char *hex_hash)
+{
+    QCryptographicHash sha512_hasher(QCryptographicHash::Sha512);
+    sha512_hasher.addData(plain_text, int(strlen(plain_text)));
+    strncpy(hex_hash, sha512_hasher.result().toHex(), 128);
 }
 
 void LoginDialog::ShowWarnPassMsg(QString title, QString text)
@@ -154,9 +154,9 @@ void LoginDialog::on_pushButton_login_clicked()
 bool LoginDialog::IsEmptyDB()
 {
     QString file_path = QCoreApplication::applicationDirPath() + QDir::separator() + "slms.sqlite";
-    bool fileExists = QFileInfo::exists(file_path) && QFileInfo(file_path).isFile();
-    qDebug() << "FileExist: " << fileExists;
-    if (fileExists)
+    bool file_exists = QFileInfo::exists(file_path) && QFileInfo(file_path).isFile();
+    qDebug() << "DB File Exist:" << file_exists;
+    if (file_exists)
     {
         return false;
     }

@@ -147,7 +147,7 @@
                  </layout>
                 </item>
                 <item>
-                 <widget class="QTableView" name="tableView">
+                 <widget class="QTableView" name="tableView_bookRecords">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
                     <horstretch>0</horstretch>
@@ -1172,7 +1172,7 @@ From DB</string>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <tabstops>
-  <tabstop>tableView</tabstop>
+  <tabstop>tableView_bookRecords</tabstop>
   <tabstop>pushButton_reloadBook</tabstop>
   <tabstop>pushButton_addBook</tabstop>
   <tabstop>pushButton_duplicateRecords</tabstop>

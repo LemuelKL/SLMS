@@ -43,18 +43,18 @@ AdminPanel::AdminPanel(QWidget *parent) :
     pLoanRecordModel_->setRelation(5, QSqlRelation("book_return", "return_id", "return_name"));
     pLoanRecordModel_->select();
 
-    pCbD_ = new ComboBoxDelegate(ui->tableView);
-    ui->tableView->setAutoScroll(true);
-    ui->tableView->setItemDelegateForColumn(BookRecordTableViewColumns::CATEGORY, pCbD_);
-    ui->tableView->setItemDelegateForColumn(BookRecordTableViewColumns::STATUS, pCbD_);
+    pCbD_ = new ComboBoxDelegate(ui->tableView_bookRecords);
+    ui->tableView_bookRecords->setAutoScroll(true);
+    ui->tableView_bookRecords->setItemDelegateForColumn(BookRecordTableViewColumns::CATEGORY, pCbD_);
+    ui->tableView_bookRecords->setItemDelegateForColumn(BookRecordTableViewColumns::STATUS, pCbD_);
 
     NormalDelegate *ld = new NormalDelegate();
     connect(ld, &NormalDelegate::InvalidIsbn, this, &AdminPanel::HandleInvalidIsbn);
 
-    ui->tableView->setItemDelegateForColumn(BookRecordTableViewColumns::ID, new NotEditableDelegate());
-    ui->tableView->setItemDelegateForColumn(BookRecordTableViewColumns::ISBN13, ld);
-    ui->tableView->setItemDelegateForColumn(BookRecordTableViewColumns::TITLE, ld);
-    ui->tableView->setItemDelegateForColumn(BookRecordTableViewColumns::AUTHOR, ld);
+    ui->tableView_bookRecords->setItemDelegateForColumn(BookRecordTableViewColumns::ID, new NotEditableDelegate());
+    ui->tableView_bookRecords->setItemDelegateForColumn(BookRecordTableViewColumns::ISBN13, ld);
+    ui->tableView_bookRecords->setItemDelegateForColumn(BookRecordTableViewColumns::TITLE, ld);
+    ui->tableView_bookRecords->setItemDelegateForColumn(BookRecordTableViewColumns::AUTHOR, ld);
 
     pBookRecordSearchProxyModel_ = new QubyxSearchFilterProxyModel();
     pBookRecordSearchProxyModel_->setSourceModel(pBookRecordModel_);
@@ -62,18 +62,18 @@ AdminPanel::AdminPanel(QWidget *parent) :
     pLoanRecordSearchProxyModel_ = new QubyxSearchFilterProxyModel();
     pLoanRecordSearchProxyModel_->setSourceModel(pLoanRecordModel_);
 
-    ui->tableView->setModel(pBookRecordSearchProxyModel_);
-    ui->tableView->setEditTriggers(QAbstractItemView::DoubleClicked);
+    ui->tableView_bookRecords->setModel(pBookRecordSearchProxyModel_);
+    ui->tableView_bookRecords->setEditTriggers(QAbstractItemView::DoubleClicked);
 
     ui->tableView_loanRecords->setModel(pLoanRecordSearchProxyModel_);
     ui->tableView_loanRecords->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
-    ui->tableView->horizontalHeader()->setSectionResizeMode(BookRecordTableViewColumns::ID, QHeaderView::ResizeToContents);
-    ui->tableView->horizontalHeader()->setSectionResizeMode(BookRecordTableViewColumns::TITLE, QHeaderView::Stretch);
-    ui->tableView->horizontalHeader()->setSectionResizeMode(BookRecordTableViewColumns::AUTHOR, QHeaderView::Interactive);
-    ui->tableView->horizontalHeader()->setSectionResizeMode(BookRecordTableViewColumns::ISBN13, QHeaderView::ResizeToContents);
-    ui->tableView->horizontalHeader()->setSectionResizeMode(BookRecordTableViewColumns::STATUS, QHeaderView::ResizeToContents);
-    ui->tableView->horizontalHeader()->setSectionResizeMode(BookRecordTableViewColumns::CATEGORY, QHeaderView::ResizeToContents);
+    ui->tableView_bookRecords->horizontalHeader()->setSectionResizeMode(BookRecordTableViewColumns::ID, QHeaderView::ResizeToContents);
+    ui->tableView_bookRecords->horizontalHeader()->setSectionResizeMode(BookRecordTableViewColumns::TITLE, QHeaderView::Stretch);
+    ui->tableView_bookRecords->horizontalHeader()->setSectionResizeMode(BookRecordTableViewColumns::AUTHOR, QHeaderView::Interactive);
+    ui->tableView_bookRecords->horizontalHeader()->setSectionResizeMode(BookRecordTableViewColumns::ISBN13, QHeaderView::ResizeToContents);
+    ui->tableView_bookRecords->horizontalHeader()->setSectionResizeMode(BookRecordTableViewColumns::STATUS, QHeaderView::ResizeToContents);
+    ui->tableView_bookRecords->horizontalHeader()->setSectionResizeMode(BookRecordTableViewColumns::CATEGORY, QHeaderView::ResizeToContents);
 
     pBookRecordSearchProxyModel_->setHeaderData(BookRecordTableViewColumns::ID, Qt::Horizontal, tr("ID"));
     pBookRecordSearchProxyModel_->setHeaderData(BookRecordTableViewColumns::ISBN13, Qt::Horizontal, tr("ISBN13"));
@@ -134,7 +134,7 @@ AdminPanel::AdminPanel(QWidget *parent) :
     loan_records_filters_->addButton(ui->checkBox_filter_loanRecord_bookId, 1);
     loan_records_filters_->addButton(ui->checkBox_filter_loanRecord_personId, 2);
     loan_records_filters_->addButton(ui->checkBox_filter_loanRecord_loanDate, 3);
-    loan_records_filters_->addButton(ui->checkBox_filter_loanRecord_returnDate, 4);
+    loan_records_filters_->addButton(ui->checkBox_filter_loanRecord_dueDate, 4);
     loan_records_filters_->addButton(ui->checkBox_filter_loanRecord_hvReturned, 5);
 
     connect(book_records_filters_, QOverload<QAbstractButton *, bool>::of(&QButtonGroup::buttonToggled),
@@ -149,14 +149,11 @@ AdminPanel::AdminPanel(QWidget *parent) :
 
     pLoanRecordModel_->SetHightlightOverdueEnabled(false);
     pLoanRecordModel_->SetHightlightOnLoanEnabled(false);
-
 }
 
 void AdminPanel::HandleInvalidIsbn()
 {
-    QMessageBox::warning(this, tr("Oops!"),
-                               tr("ISBN13 is not valid!"),
-                                   QMessageBox::Ok);
+    QMessageBox::warning(this, tr("Oops!"), tr("ISBN13 is not valid!"), QMessageBox::Ok);
 }
 
 AdminPanel::~AdminPanel()
@@ -166,47 +163,55 @@ AdminPanel::~AdminPanel()
 
 bool AdminPanel::ReloadBooksToView()
 {
+    UpdateNBookLabel();
     bool ret_status = pBookRecordModel_->select();
     qDebug() << "Reloaded Books data to TableView: " << ret_status;
 
+    while (pBookRecordModel_->canFetchMore())
+        pBookRecordModel_->fetchMore();
+
+    return ret_status;
+}
+
+void AdminPanel::UpdateNBookLabel()
+{
     QSqlDatabase conn = QSqlDatabase::database("SLMS");
     QSqlQuery qry = QSqlQuery(conn);
     if (qry.exec("SELECT COUNT(*) FROM book"))
     {
         qry.first();
-        qDebug() << "Book Record: Real Row Count" << qry.value(0).toInt();
+        qDebug() << "Book Record - No. Rows In DB:" << qry.value(0).toInt();
         ui->label_numBookRecords_var->setText(QString::number(qry.value(0).toInt()));
-        while (pBookRecordModel_->canFetchMore())
-               pBookRecordModel_->fetchMore();
     }
     else
     {
         QMessageBox::warning(this, tr("Warning!"), tr("Could not fetch number of book records from DB!"));
-        return false;
+        return;
     }
-    return ret_status;
 }
 
-bool AdminPanel::ReloadLoansToView()
+void AdminPanel::UpdateNLoanLabel()
 {
-    bool ret_status = pLoanRecordModel_->select();
-    qDebug() << "Reloaded Loans data to TableView: " << ret_status;
-
     QSqlDatabase conn = QSqlDatabase::database("SLMS");
     QSqlQuery qry = QSqlQuery(conn);
     if (qry.exec("SELECT COUNT(*) FROM loan_record"))
     {
         qry.first();
-        qDebug() << "Loan Record: Real Row Count" << qry.value(0).toInt();
+        qDebug() << "Loan Record - No. Rows In DB:" << qry.value(0).toInt();
         ui->label_numLoanRecords_var->setText(QString::number(qry.value(0).toInt()));
-        while (pLoanRecordModel_->canFetchMore())
-               pLoanRecordModel_->fetchMore();
     }
     else
     {
         QMessageBox::warning(this, tr("Warning!"), tr("Could not fetch number of loan records from DB!"));
-        return false;
+        return;
     }
+}
+
+bool AdminPanel::ReloadLoansToView()
+{
+    UpdateNLoanLabel();
+    bool ret_status = pLoanRecordModel_->select();
+    qDebug() << "Reloaded Loans data to TableView: " << ret_status;
 
     this->UpdateOverdueRecordsToLabel();
     return ret_status;
@@ -231,16 +236,21 @@ void AdminPanel::on_pushButton_addBook_clicked()
     record.setValue(AdminPanel::STATUS, 0);
 
     while (pBookRecordModel_->canFetchMore())
+    {
         pBookRecordModel_->fetchMore();
+    }
+
     if (pBookRecordModel_->insertRecord(-1, record))
     {
         if (ui->checkBox_submitChangesAutomatically->checkState() == Qt::Checked)
+        {
             ReloadBooksToView();
+        }
         QModelIndex source_index = pBookRecordModel_->index(pBookRecordModel_->rowCount() - 1, AdminPanel::ISBN13);
         QModelIndex proxy_index = pBookRecordSearchProxyModel_->mapFromSource(source_index);
-        ui->tableView->scrollTo(proxy_index);
-        ui->tableView->setCurrentIndex(proxy_index);
-        ui->tableView->edit(proxy_index);
+        ui->tableView_bookRecords->scrollTo(proxy_index);
+        ui->tableView_bookRecords->setCurrentIndex(proxy_index);
+        ui->tableView_bookRecords->edit(proxy_index);
     }
     else
     {
@@ -297,7 +307,7 @@ void AdminPanel::HandleDataIsEmpty(QModelIndex last_empty_index)
 {
     QString desc_text = "";
     desc_text += "The ";
-    desc_text += ui->tableView->model()->headerData(last_empty_index.column(), Qt::Horizontal).toString();
+    desc_text += ui->tableView_bookRecords->model()->headerData(last_empty_index.column(), Qt::Horizontal).toString();
     desc_text += " field is empty!";
     QMessageBox::warning(this, tr("Oops!"), tr(desc_text.toStdString().c_str()), QMessageBox::Ok);
     ReloadBooksToView();
@@ -322,13 +332,13 @@ void AdminPanel::on_pushButton_deleteRecords_clicked()
 
 void AdminPanel::RemoveSelectedRows()
 {
-    if (ui->tableView->selectionModel()->hasSelection() == false)
+    if (ui->tableView_bookRecords->selectionModel()->hasSelection() == false)
     {
         QMessageBox::warning(this, "Oops!", "You haven't selected any rows!", QMessageBox::Ok);
     }
     else
     {
-        foreach (QModelIndex index, ui->tableView->selectionModel()->selectedRows())
+        foreach (QModelIndex index, ui->tableView_bookRecords->selectionModel()->selectedRows())
         {
             pBookRecordSearchProxyModel_->removeRow(index.row());
         }
@@ -337,25 +347,27 @@ void AdminPanel::RemoveSelectedRows()
     }
 }
 
+bool AdminPanel::NoCheckedCheckbox(QButtonGroup *button_group)
+{
+    QListIterator<QAbstractButton *> i(button_group->buttons());
+    while (i.hasNext())
+    {
+        QAbstractButton *b = i.next();
+        QCheckBox *cb = qobject_cast<QCheckBox*>(b);
+        if (cb->checkState() == Qt::Checked)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 void AdminPanel::FilterTableView()
 // https://stackoverflow.com/questions/18378062/qt-how-i-can-filter-more-than-one-columns
 {
     if (ui->tabWidget->currentIndex() == 0)
     {
-        bool has_at_least_one_checked = false;
-        QList<QAbstractButton*> br_chkbxes = book_records_filters_->buttons();
-        QListIterator<QAbstractButton*> i(br_chkbxes);
-        while (i.hasNext())
-        {
-            QAbstractButton* b = i.next();
-            QCheckBox* cb = qobject_cast<QCheckBox*>(b);
-            if (cb->checkState() == Qt::Checked)
-            {
-                has_at_least_one_checked = true;
-                break;
-            }
-        }
-        if (!has_at_least_one_checked)
+        if (!NoCheckedCheckbox(book_records_filters_))
         {
             ShowWarnTickAtLeastOne();
             return;
@@ -387,32 +399,21 @@ void AdminPanel::FilterTableView()
             cols_to_filter.append(5);
 
         pBookRecordSearchProxyModel_->SetColsToFilter(cols_to_filter);
-        qDebug() << "pBookRecordSearchProxyModel_ Fitlering on column" << cols_to_filter;
+        qDebug() << "pBookRecordSearchProxyModel_ - Fitlering on column" << cols_to_filter;
 
         QRegExp regExp(ui->lineEdit->text(), (ui->checkBox_filter_caseSensitive->checkState() == Qt::Checked) ? Qt::CaseSensitive : Qt::CaseInsensitive, QRegExp::FixedString);
         pBookRecordSearchProxyModel_->setFilterRegExp(regExp);
 
         while (pBookRecordModel_->canFetchMore())
-               pBookRecordModel_->fetchMore();
-
-        qDebug() << "pBookRecordModel_ Source" << pBookRecordModel_->rowCount() << "pBookRecordSearchProxyModel_ Displaying" << pBookRecordSearchProxyModel_->rowCount();
+        {
+            pBookRecordModel_->fetchMore();
+        }
+        qDebug() << "pBookRecordModel_ - Source:" << pBookRecordModel_->rowCount() << "pBookRecordSearchProxyModel_ - Displaying:" << pBookRecordSearchProxyModel_->rowCount();
     }
+
     if (ui->tabWidget->currentIndex() == 1)
     {
-        bool has_at_least_one_checked = false;
-        QList<QAbstractButton*> br_chkbxes = loan_records_filters_->buttons();
-        QListIterator<QAbstractButton*> i(br_chkbxes);
-        while (i.hasNext())
-        {
-            QAbstractButton* b = i.next();
-            QCheckBox* cb = qobject_cast<QCheckBox*>(b);
-            if (cb->checkState() == Qt::Checked)
-            {
-                has_at_least_one_checked = true;
-                break;
-            }
-        }
-        if (!has_at_least_one_checked)
+        if (!NoCheckedCheckbox(loan_records_filters_))
         {
             ShowWarnTickAtLeastOne();
             return;
@@ -436,7 +437,7 @@ void AdminPanel::FilterTableView()
         Qt::CheckState s_ld = ui->checkBox_filter_loanRecord_loanDate->checkState();
         if (s_ld == Qt::Checked)
             cols_to_filter.append(3);
-        Qt::CheckState s_rd = ui->checkBox_filter_loanRecord_returnDate->checkState();
+        Qt::CheckState s_rd = ui->checkBox_filter_loanRecord_dueDate->checkState();
         if (s_rd == Qt::Checked)
             cols_to_filter.append(4);
         Qt::CheckState s_hvRet = ui->checkBox_filter_loanRecord_hvReturned->checkState();
@@ -444,45 +445,45 @@ void AdminPanel::FilterTableView()
             cols_to_filter.append(5);
 
         pLoanRecordSearchProxyModel_->SetColsToFilter(cols_to_filter);
-        qDebug() << "pLoanRecordSearchProxyModel_ Fitlering on column" << cols_to_filter;
+        qDebug() << "pLoanRecordSearchProxyModel_ - Fitlering on column" << cols_to_filter;
 
         QRegExp regExp(ui->lineEdit->text(), (ui->checkBox_filter_caseSensitive->checkState() == Qt::Checked) ? Qt::CaseSensitive : Qt::CaseInsensitive, QRegExp::FixedString);
         pLoanRecordSearchProxyModel_->setFilterRegExp(regExp);
 
         while (pLoanRecordModel_->canFetchMore())
-               pLoanRecordModel_->fetchMore();
+        {
+            pLoanRecordModel_->fetchMore();
 
-        qDebug() << "pLoanRecordModel_ Source" << pLoanRecordModel_->rowCount() << "pLoanRecordSearchProxyModel_ Displaying" << pLoanRecordSearchProxyModel_->rowCount();
+        }
+        qDebug() << "pLoanRecordModel_ - Source:" << pLoanRecordModel_->rowCount() << "pLoanRecordSearchProxyModel_ - Displaying:" << pLoanRecordSearchProxyModel_->rowCount();
     }
 }
 
 void AdminPanel::on_pushButton_duplicateRecords_clicked()
 {
-    if (ui->tableView->selectionModel()->hasSelection() && ui->tableView->selectionModel()->selectedRows().size() == 1)
+    if (ui->tableView_bookRecords->selectionModel()->hasSelection() && ui->tableView_bookRecords->selectionModel()->selectedRows().size() == 1)
     {
-        QModelIndex a = ui->tableView->selectionModel()->selectedRows()[0];
+        QModelIndex a = ui->tableView_bookRecords->selectionModel()->selectedRows()[0];
         int row = a.row();
         int num_duplicate_row = ui->spinBox_copiesToMake->value();
         int i;
 
-        auto proxy = static_cast<QSortFilterProxyModel*>(ui->tableView->model());
-        auto const proxyIndex1 = proxy->index(row, 1);
-        auto const proxyIndex2 = proxy->index(row, 2);
-        auto const proxyIndex3 = proxy->index(row, 3);
-        auto const proxyIndex4 = proxy->index(row, 4);
-        auto const proxyIndex5 = proxy->index(row, 5);
+        auto proxy = static_cast<QSortFilterProxyModel*>(ui->tableView_bookRecords->model());
+        auto const proxy_index1 = proxy->index(row, 1);
+        auto const proxy_index2 = proxy->index(row, 2);
+        auto const proxy_index3 = proxy->index(row, 3);
+        auto const proxy_index4 = proxy->index(row, 4);
+        auto const proxy_index5 = proxy->index(row, 5);
 
         QSqlRecord record = pBookRecordModel_->record();
-        record.setValue(1, ui->tableView->model()->data(proxyIndex1).toString());
-        record.setValue(2, ui->tableView->model()->data(proxyIndex2).toString());
-        record.setValue(3, ui->tableView->model()->data(proxyIndex3).toString());
-        record.setValue(4, Category::StringToEnum(ui->tableView->model()->data(proxyIndex4).toString()));
-        record.setValue(5, Status::StringToEnum(ui->tableView->model()->data(proxyIndex5).toString()));
+        record.setValue(1, ui->tableView_bookRecords->model()->data(proxy_index1).toString());
+        record.setValue(2, ui->tableView_bookRecords->model()->data(proxy_index2).toString());
+        record.setValue(3, ui->tableView_bookRecords->model()->data(proxy_index3).toString());
+        record.setValue(4, Category::StringToEnum(ui->tableView_bookRecords->model()->data(proxy_index4).toString()));
+        record.setValue(5, Status::StringToEnum(ui->tableView_bookRecords->model()->data(proxy_index5).toString()));
 
         for (i = 0; i < num_duplicate_row; i++)
         {
-            // HISTORY : (Future coders could ignore) This block must be recalculated every loop! (because of model reset);
-
             qDebug() << "Duplicate - Trying to insert: " << record.value(1) << record.value(2) << record.value(3) << record.value(4) << record.value(5);
             qDebug() << "Duplicate - insertRecord state: " << pBookRecordModel_->insertRecord(-1, record);
         }
@@ -780,6 +781,7 @@ void AdminPanel::on_pushButton_submitChangesToDb_clicked()
     {
         QMessageBox::warning(this, tr("Error!"), tr("Something went wrong!"), QMessageBox::Ok);
     }
+    ReloadBooksToView();
 }
 
 void AdminPanel::on_checkBox_submitChangesAutomatically_stateChanged(int arg1)
@@ -858,7 +860,7 @@ void AdminPanel::UpdateOverdueRecordsToLabel()
 
     for (int i = 0; i < num_records; i++)
     {
-        if (i%256==0 && model->canFetchMore())
+        if (model->canFetchMore())
             model->fetchMore();
         QModelIndex index_return_date = model->index(i, 4);
         QModelIndex hv_returned = model->index(i, 5);

@@ -1,5 +1,6 @@
 /release
 /debug
+/deploy
 *.Debug
 *.Release
 SLMS.pro.user

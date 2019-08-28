@@ -54,10 +54,6 @@ public slots:
 
     void HandleInvalidIsbn();
 
-    //void SaveViewPortY();
-
-    //void SetViewWithPortY();
-
     void ReceivePersonId(QString);
 
     void ReceiveBookId(QString);
@@ -137,6 +133,11 @@ private:
     void SyncQDateFormatToLRQSRTM();
     void RemoveSelectedRows();
     void keyPressEvent(QKeyEvent *event);
+
+    void UpdateNBookLabel();
+    void UpdateNLoanLabel();
+
+    bool NoCheckedCheckbox(QButtonGroup *button_group);
 };
 
 #endif // ADMINPANEL_H

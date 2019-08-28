@@ -20,11 +20,7 @@ QWidget * NormalDelegate::createEditor(QWidget *parent, const QStyleOptionViewIt
     (void) index;
     return line_edit;
 }
-/*
-void ComboBoxDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
-{
-}
-*/
+
 void NormalDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
     QLineEdit *line_edit = static_cast<QLineEdit *>(editor);
@@ -54,17 +50,3 @@ void NormalDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, co
     }
     QStyledItemDelegate::setModelData(editor, model, index);
 }
-
-/*
-QSize NormalDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
-{
-
-}
-*/
-/*
-void NormalDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const
-{
-    editor->setGeometry(option.rect);
-    (void) index;
-}
-*/

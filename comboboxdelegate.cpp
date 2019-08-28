@@ -14,7 +14,6 @@ ComboBoxDelegate::ComboBoxDelegate(QObject *parent) : QSqlRelationalDelegate (pa
 {
     pMy_ = new MyQSqlRelationalDelegate();
     connect(pMy_, &MyQSqlRelationalDelegate::closeEditor, this, &ComboBoxDelegate::CommitAndClose);
-
 }
 
 QWidget * ComboBoxDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
@@ -23,11 +22,7 @@ QWidget * ComboBoxDelegate::createEditor(QWidget *parent, const QStyleOptionView
     auto base_index = proxy->mapToSource(index);
     return QSqlRelationalDelegate::createEditor(parent, option, base_index);
 }
-/*
-void ComboBoxDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
-{
-}
-*/
+
 void ComboBoxDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
     const QSortFilterProxyModel *proxy = qobject_cast<const QSortFilterProxyModel*>(index.model());

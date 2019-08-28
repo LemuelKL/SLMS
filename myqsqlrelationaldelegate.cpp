@@ -10,6 +10,7 @@
 
 MyQSqlRelationalDelegate::MyQSqlRelationalDelegate(QObject *parent) : QSqlRelationalDelegate (parent)
 {
+
 }
 
 QWidget * MyQSqlRelationalDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
@@ -33,11 +34,7 @@ QWidget * MyQSqlRelationalDelegate::createEditor(QWidget *parent, const QStyleOp
         return combobox;
     }
 }
-/*
-void ComboBoxDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
-{
-}
-*/
+
 void MyQSqlRelationalDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
     QComboBox *combobox = static_cast<QComboBox *>(editor);
@@ -52,7 +49,6 @@ void MyQSqlRelationalDelegate::setModelData(QWidget *editor, QAbstractItemModel 
 {
     QComboBox *combobox = static_cast<QComboBox *>(editor);
     model->setData(index, combobox->currentIndex());    // "Convert" string to enum here instead of reimplementing setData() of the Model // Unused too after inheriting from QSqlRelationalDelegate
-    //model->setData(index, combobox->currentText());   // Unused
 }
 
 QSize MyQSqlRelationalDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
@@ -79,7 +75,6 @@ QSize MyQSqlRelationalDelegate::sizeHint(const QStyleOptionViewItem &option, con
         }
     }
 
-
     return hint;
 }
 
@@ -96,4 +91,3 @@ void MyQSqlRelationalDelegate::CommitAndClose()
     emit commitData(editor);
     emit closeEditor(editor);
 }
-

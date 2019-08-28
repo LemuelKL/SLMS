@@ -35,7 +35,6 @@ SOURCES += \
     adminpanel.cpp \
     comboboxdelegate.cpp \
     category.cpp \
-    headermodel.cpp \
     normaldelegate.cpp \
     return.cpp \
     status.cpp \
@@ -52,7 +51,6 @@ HEADERS += \
     adminpanel.h \
     comboboxdelegate.h \
     category.h \
-    headermodel.h \
     normaldelegate.h \
     return.h \
     status.h \

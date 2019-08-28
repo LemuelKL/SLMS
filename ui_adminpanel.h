@@ -52,7 +52,7 @@ public:
     QLabel *label_numBookRecords;
     QLabel *label_numBookRecords_var;
     QSpacerItem *horizontalSpacer_2;
-    QTableView *tableView;
+    QTableView *tableView_bookRecords;
     QWidget *tab_loanRecords_3;
     QHBoxLayout *horizontalLayout_2;
     QVBoxLayout *verticalLayout;
@@ -131,7 +131,7 @@ public:
     QCheckBox *checkBox_filter_loanRecord_bookId;
     QCheckBox *checkBox_filter_loanRecord_personId;
     QCheckBox *checkBox_filter_loanRecord_loanDate;
-    QCheckBox *checkBox_filter_loanRecord_returnDate;
+    QCheckBox *checkBox_filter_loanRecord_dueDate;
     QCheckBox *checkBox_filter_loanRecord_hvReturned;
     QVBoxLayout *verticalLayout_2;
     QCheckBox *checkBox_filter_caseSensitive;
@@ -221,19 +221,19 @@ public:
 
         verticalLayout_6->addLayout(horizontalLayout_16);
 
-        tableView = new QTableView(tab_bookRecords_3);
-        tableView->setObjectName(QString::fromUtf8("tableView"));
-        sizePolicy.setHeightForWidth(tableView->sizePolicy().hasHeightForWidth());
-        tableView->setSizePolicy(sizePolicy);
-        tableView->setMinimumSize(QSize(650, 470));
-        tableView->setAlternatingRowColors(false);
-        tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
-        tableView->setIconSize(QSize(30, 30));
-        tableView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
-        tableView->setSortingEnabled(true);
-        tableView->verticalHeader()->setVisible(false);
+        tableView_bookRecords = new QTableView(tab_bookRecords_3);
+        tableView_bookRecords->setObjectName(QString::fromUtf8("tableView_bookRecords"));
+        sizePolicy.setHeightForWidth(tableView_bookRecords->sizePolicy().hasHeightForWidth());
+        tableView_bookRecords->setSizePolicy(sizePolicy);
+        tableView_bookRecords->setMinimumSize(QSize(650, 470));
+        tableView_bookRecords->setAlternatingRowColors(false);
+        tableView_bookRecords->setSelectionBehavior(QAbstractItemView::SelectRows);
+        tableView_bookRecords->setIconSize(QSize(30, 30));
+        tableView_bookRecords->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+        tableView_bookRecords->setSortingEnabled(true);
+        tableView_bookRecords->verticalHeader()->setVisible(false);
 
-        verticalLayout_6->addWidget(tableView);
+        verticalLayout_6->addWidget(tableView_bookRecords);
 
 
         horizontalLayout_19->addLayout(verticalLayout_6);
@@ -717,11 +717,11 @@ public:
 
         verticalLayout_5->addWidget(checkBox_filter_loanRecord_loanDate);
 
-        checkBox_filter_loanRecord_returnDate = new QCheckBox(frame_loanRecords_columnFilters);
-        checkBox_filter_loanRecord_returnDate->setObjectName(QString::fromUtf8("checkBox_filter_loanRecord_returnDate"));
-        checkBox_filter_loanRecord_returnDate->setChecked(true);
+        checkBox_filter_loanRecord_dueDate = new QCheckBox(frame_loanRecords_columnFilters);
+        checkBox_filter_loanRecord_dueDate->setObjectName(QString::fromUtf8("checkBox_filter_loanRecord_returnDate"));
+        checkBox_filter_loanRecord_dueDate->setChecked(true);
 
-        verticalLayout_5->addWidget(checkBox_filter_loanRecord_returnDate);
+        verticalLayout_5->addWidget(checkBox_filter_loanRecord_dueDate);
 
         checkBox_filter_loanRecord_hvReturned = new QCheckBox(frame_loanRecords_columnFilters);
         checkBox_filter_loanRecord_hvReturned->setObjectName(QString::fromUtf8("checkBox_filter_loanRecord_hvReturned"));
@@ -822,7 +822,7 @@ public:
         statusbar = new QStatusBar(AdminPanel);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
         AdminPanel->setStatusBar(statusbar);
-        QWidget::setTabOrder(tableView, pushButton_reloadBook);
+        QWidget::setTabOrder(tableView_bookRecords, pushButton_reloadBook);
         QWidget::setTabOrder(pushButton_reloadBook, pushButton_addBook);
         QWidget::setTabOrder(pushButton_addBook, pushButton_duplicateRecords);
         QWidget::setTabOrder(pushButton_duplicateRecords, spinBox_copiesToMake);
@@ -913,7 +913,7 @@ public:
         checkBox_filter_loanRecord_bookId->setText(QCoreApplication::translate("AdminPanel", "Book ID", nullptr));
         checkBox_filter_loanRecord_personId->setText(QCoreApplication::translate("AdminPanel", "Person ID", nullptr));
         checkBox_filter_loanRecord_loanDate->setText(QCoreApplication::translate("AdminPanel", "Loan Date", nullptr));
-        checkBox_filter_loanRecord_returnDate->setText(QCoreApplication::translate("AdminPanel", "Return Date", nullptr));
+        checkBox_filter_loanRecord_dueDate->setText(QCoreApplication::translate("AdminPanel", "Return Date", nullptr));
         checkBox_filter_loanRecord_hvReturned->setText(QCoreApplication::translate("AdminPanel", "Returned?", nullptr));
         checkBox_filter_caseSensitive->setText(QCoreApplication::translate("AdminPanel", "Case Sensitive", nullptr));
         pushButton_updateView->setText(QCoreApplication::translate("AdminPanel", "Search", nullptr));
