@@ -12,15 +12,25 @@
 
 ComboBoxDelegate::ComboBoxDelegate(QObject *parent) : QSqlRelationalDelegate (parent)
 {
+    editor_enabled_ = false;
     pMy_ = new MyQSqlRelationalDelegate();
     connect(pMy_, &MyQSqlRelationalDelegate::closeEditor, this, &ComboBoxDelegate::CommitAndClose);
 }
 
+void ComboBoxDelegate::SetEditorEnabled(bool enabled)
+{
+    editor_enabled_ = enabled;
+}
+
 QWidget * ComboBoxDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    const QSortFilterProxyModel *proxy = qobject_cast<const QSortFilterProxyModel*>(index.model());
-    auto base_index = proxy->mapToSource(index);
-    return QSqlRelationalDelegate::createEditor(parent, option, base_index);
+    if (editor_enabled_)
+    {
+        const QSortFilterProxyModel *proxy = qobject_cast<const QSortFilterProxyModel*>(index.model());
+        auto base_index = proxy->mapToSource(index);
+        return QSqlRelationalDelegate::createEditor(parent, option, base_index);
+    }
+    return Q_NULLPTR;
 }
 
 void ComboBoxDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const

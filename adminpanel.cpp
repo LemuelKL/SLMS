@@ -7,6 +7,8 @@
 #include <return.h>
 #include <normaldelegate.h>
 #include <noteditabledelegate.h>
+#include <addbookrecorddialog.h>
+#include <editbookrecorddialog.h>
 
 #include <QSqlQueryModel>
 #include <QSqlQuery>
@@ -43,18 +45,7 @@ AdminPanel::AdminPanel(QWidget *parent) :
     pLoanRecordModel_->setRelation(5, QSqlRelation("book_return", "return_id", "return_name"));
     pLoanRecordModel_->select();
 
-    pCbD_ = new ComboBoxDelegate(ui->tableView_bookRecords);
-    ui->tableView_bookRecords->setAutoScroll(true);
-    ui->tableView_bookRecords->setItemDelegateForColumn(BookRecordTableViewColumns::CATEGORY, pCbD_);
-    ui->tableView_bookRecords->setItemDelegateForColumn(BookRecordTableViewColumns::STATUS, pCbD_);
-
-    NormalDelegate *ld = new NormalDelegate();
-    connect(ld, &NormalDelegate::InvalidIsbn, this, &AdminPanel::HandleInvalidIsbn);
-
-    ui->tableView_bookRecords->setItemDelegateForColumn(BookRecordTableViewColumns::ID, new NotEditableDelegate());
-    ui->tableView_bookRecords->setItemDelegateForColumn(BookRecordTableViewColumns::ISBN13, ld);
-    ui->tableView_bookRecords->setItemDelegateForColumn(BookRecordTableViewColumns::TITLE, ld);
-    ui->tableView_bookRecords->setItemDelegateForColumn(BookRecordTableViewColumns::AUTHOR, ld);
+    this->on_checkBox_readOnly_stateChanged(1);
 
     pBookRecordSearchProxyModel_ = new QubyxSearchFilterProxyModel();
     pBookRecordSearchProxyModel_->setSourceModel(pBookRecordModel_);
@@ -112,8 +103,12 @@ AdminPanel::AdminPanel(QWidget *parent) :
 
     qDate_format_ = ui->comboBox_qDateFormat->currentText();
     ui->label_today->setText("Today: " + QDate::currentDate().toString(qDate_format_));
-    ReloadBooksToView();
-    ReloadLoansToView();
+    //ReloadBooksToView();
+    UpdateNBookLabel();
+    pBookRecordModel_->select();
+    //ReloadLoansToView();
+    UpdateNLoanLabel();
+    pLoanRecordModel_->select();
 
     ui->tabWidget->setCurrentIndex(0);
 
@@ -168,8 +163,9 @@ bool AdminPanel::ReloadBooksToView()
     qDebug() << "Reloaded Books data to TableView: " << ret_status;
 
     while (pBookRecordModel_->canFetchMore())
+    {
         pBookRecordModel_->fetchMore();
-
+    }
     return ret_status;
 }
 
@@ -226,36 +222,34 @@ void AdminPanel::ReceiveLogin(QString username)
     this->show();
 }
 
+void AdminPanel::ReceiveAddBookRequest(QString isbn13, QString title, QString author, int category, int status, int amount)
+{
+    qDebug() << isbn13 << title << author << category << status << amount;
+    QSqlRecord record = pBookRecordModel_->record();
+    record.setValue(AdminPanel::ISBN13, isbn13);
+    record.setValue(AdminPanel::TITLE, title);
+    record.setValue(AdminPanel::AUTHOR, author);
+    record.setValue(AdminPanel::CATEGORY, category);
+    record.setValue(AdminPanel::STATUS, status);
+
+    QSqlTableModel::EditStrategy old_strat = pBookRecordModel_->editStrategy();
+    pBookRecordModel_->setEditStrategy(QSqlTableModel::EditStrategy::OnManualSubmit);
+
+    for (int i = 0; i < amount; i++)
+    {
+        pBookRecordModel_->insertRecord(-1, record);
+    }
+    qDebug() << "Inserted" << amount << "book records:" << pBookRecordModel_->submitAll();
+
+    pBookRecordModel_->setEditStrategy(old_strat);
+}
+
 void AdminPanel::on_pushButton_addBook_clicked()
 {
-    QSqlRecord record = pBookRecordModel_->record();
-    record.setValue(AdminPanel::ISBN13, "UNCONFIGURED ISBN13");
-    record.setValue(AdminPanel::TITLE, "UNCONFIGURED TITLE");
-    record.setValue(AdminPanel::AUTHOR, "UNCONFIGURED AUTHOR");
-    record.setValue(AdminPanel::CATEGORY, 0);
-    record.setValue(AdminPanel::STATUS, 0);
-
-    while (pBookRecordModel_->canFetchMore())
-    {
-        pBookRecordModel_->fetchMore();
-    }
-
-    if (pBookRecordModel_->insertRecord(-1, record))
-    {
-        if (ui->checkBox_submitChangesAutomatically->checkState() == Qt::Checked)
-        {
-            ReloadBooksToView();
-        }
-        QModelIndex source_index = pBookRecordModel_->index(pBookRecordModel_->rowCount() - 1, AdminPanel::ISBN13);
-        QModelIndex proxy_index = pBookRecordSearchProxyModel_->mapFromSource(source_index);
-        ui->tableView_bookRecords->scrollTo(proxy_index);
-        ui->tableView_bookRecords->setCurrentIndex(proxy_index);
-        ui->tableView_bookRecords->edit(proxy_index);
-    }
-    else
-    {
-        QMessageBox::critical(this, "Oh no!", "Something went wrong when inserting a new record!");
-    }
+    AddBookRecordDialog *dialog = new AddBookRecordDialog();
+    connect(dialog, &AddBookRecordDialog::Submitted, this, &AdminPanel::ReceiveAddBookRequest);
+    dialog->exec();
+    return;
 }
 
 void AdminPanel::on_pushButton_reloadBook_clicked()
@@ -315,18 +309,11 @@ void AdminPanel::HandleDataIsEmpty(QModelIndex last_empty_index)
 
 void AdminPanel::on_pushButton_deleteRecords_clicked()
 {
-    if (ui->checkBox_submitChangesAutomatically->checkState() == Qt::Checked)
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this, "Are you sure?", "Deletion will NOT be cached and will be submitted to the DB automatically, continue?", QMessageBox::Yes|QMessageBox::No);
+    if (reply == QMessageBox::Yes)
     {
         RemoveSelectedRows();
-    }
-    else
-    {
-        QMessageBox::StandardButton reply;
-        reply = QMessageBox::question(this, "Are you sure?", "Deletion will NOT be cached and will be submitted to the DB automatically, continue?", QMessageBox::Yes|QMessageBox::No);
-        if (reply == QMessageBox::Yes)
-        {
-            RemoveSelectedRows();
-        }
     }
 }
 
@@ -338,11 +325,15 @@ void AdminPanel::RemoveSelectedRows()
     }
     else
     {
+        QSqlTableModel::EditStrategy old_strat = pBookRecordModel_->editStrategy();
+        pBookRecordModel_->setEditStrategy(QSqlTableModel::EditStrategy::OnManualSubmit);
+
         foreach (QModelIndex index, ui->tableView_bookRecords->selectionModel()->selectedRows())
         {
             pBookRecordSearchProxyModel_->removeRow(index.row());
         }
         pBookRecordModel_->submitAll();
+        pBookRecordModel_->setEditStrategy(old_strat);
         ReloadBooksToView();
     }
 }
@@ -459,70 +450,6 @@ void AdminPanel::FilterTableView()
     }
 }
 
-void AdminPanel::on_pushButton_duplicateRecords_clicked()
-{
-    if (!(ui->checkBox_submitChangesAutomatically->checkState() == Qt::Checked))
-    {
-        QMessageBox::StandardButton reply;
-        reply = QMessageBox::question(this, "Are you sure?", "Duplication will NOT be cached and will be submitted to the DB automatically, continue?", QMessageBox::Yes|QMessageBox::No);
-        if (reply == QMessageBox::No)
-            return;
-    }
-
-    if (ui->tableView_bookRecords->selectionModel()->hasSelection() && ui->tableView_bookRecords->selectionModel()->selectedRows().size() == 1)
-    {
-        QModelIndex a = ui->tableView_bookRecords->selectionModel()->selectedRows()[0];
-        int row = a.row();
-        int num_duplicate_row = ui->spinBox_copiesToMake->value();
-        int i;
-
-        auto proxy = static_cast<QSortFilterProxyModel*>(ui->tableView_bookRecords->model());
-        auto const proxy_index1 = proxy->index(row, 1);
-        auto const proxy_index2 = proxy->index(row, 2);
-        auto const proxy_index3 = proxy->index(row, 3);
-        auto const proxy_index4 = proxy->index(row, 4);
-        auto const proxy_index5 = proxy->index(row, 5);
-/*
-        QSqlRecord record = pBookRecordModel_->record();
-        record.setValue(1, ui->tableView_bookRecords->model()->data(proxy_index1).toString());
-        record.setValue(2, ui->tableView_bookRecords->model()->data(proxy_index2).toString());
-        record.setValue(3, ui->tableView_bookRecords->model()->data(proxy_index3).toString());
-        record.setValue(4, Category::StringToEnum(ui->tableView_bookRecords->model()->data(proxy_index4).toString()));
-        record.setValue(5, Status::StringToEnum(ui->tableView_bookRecords->model()->data(proxy_index5).toString()));
-
-        for (i = 0; i < num_duplicate_row; i++)
-        {
-            qDebug() << "Duplicate - Trying to insert: " << record.value(1) << record.value(2) << record.value(3) << record.value(4) << record.value(5);
-            qDebug() << "Duplicate - insertRecord state: " << pBookRecordModel_->insertRecord(-1, record);
-        }
-*/
-        QSqlDatabase conn = QSqlDatabase::database("SLMS");
-        QSqlQuery qry = QSqlQuery(conn);
-        qry.prepare("INSERT INTO book (isbn13, title, author, category, status) "
-                          "VALUES (:isbn13,:title,:author,:category,:status)");
-        qry.bindValue(":isbn13", ui->tableView_bookRecords->model()->data(proxy_index1).toString());
-        qry.bindValue(":title", ui->tableView_bookRecords->model()->data(proxy_index2).toString());
-        qry.bindValue(":author", ui->tableView_bookRecords->model()->data(proxy_index3).toString());
-        qry.bindValue(":category", Category::StringToEnum(ui->tableView_bookRecords->model()->data(proxy_index4).toString()));
-        qry.bindValue(":status", Status::StringToEnum(ui->tableView_bookRecords->model()->data(proxy_index5).toString()));
-        qDebug()<<"can start a transaction:"<<QSqlDatabase::database("SLMS").transaction();
-        for(i = 0; i < num_duplicate_row; i++)
-        {
-          qry.exec();
-        }
-        qDebug()<<"end transaction:"<<QSqlDatabase::database("SLMS").commit();
-
-        QString body_text = "Done duplicating " + QString::number(i) + " records!";
-        QMessageBox::information(this, tr("Success!"), tr(body_text.toLocal8Bit().data()), QMessageBox::Ok);
-        ui->spinBox_copiesToMake->setValue(0);
-    }
-    else
-    {
-        QMessageBox::warning(this, tr("Oops!"), tr("Please select ONE record to duplicate."), QMessageBox::Ok);
-    }
-
-}
-
 void AdminPanel::on_pushButton_updateView_clicked()
 {
     FilterTableView();
@@ -530,7 +457,7 @@ void AdminPanel::on_pushButton_updateView_clicked()
 
 void AdminPanel::on_lineEdit_textChanged(const QString &arg1)
 {
-    if (ui->checkBox_updateViewAsIType->checkState() == Qt::Checked)
+    if (arg1 == Qt::Checked)
         FilterTableView();
 }
 
@@ -794,41 +721,6 @@ void AdminPanel::on_pushButton_editBookId_clicked()
     d->exec();
 }
 
-
-void AdminPanel::on_pushButton_submitChangesToDb_clicked()
-{
-    bool submissionState = pBookRecordModel_->submitAll();
-    if (submissionState)
-    {
-        QMessageBox::information(this, tr("Done!"), tr("Successfully submitted all cached changes to the database!"), QMessageBox::Ok);
-    }
-    else
-    {
-        QMessageBox::warning(this, tr("Error!"), tr("Something went wrong!"), QMessageBox::Ok);
-    }
-    ReloadBooksToView();
-}
-
-void AdminPanel::on_checkBox_submitChangesAutomatically_stateChanged(int arg1)
-{
-    if (arg1 == Qt::Checked)
-    {
-        pBookRecordModel_->submitAll();
-        pBookRecordModel_->select();
-        pBookRecordModel_->setEditStrategy(QSqlTableModel::OnFieldChange);
-    }
-    else
-    {
-        pBookRecordModel_->setEditStrategy(QSqlTableModel::OnManualSubmit);
-    }
-}
-
-void AdminPanel::on_pushButton_revertChanges_clicked()
-{
-    pBookRecordModel_->revertAll();
-    QMessageBox::information(this, tr("Done!"), tr("Cleared all cached changes!"), QMessageBox::Ok);
-}
-
 void AdminPanel::on_tabWidget_currentChanged(int index)
 {
     if (index == 0)
@@ -843,7 +735,6 @@ void AdminPanel::on_tabWidget_currentChanged(int index)
         ui->frame_bookRecords_columnFilters->setEnabled(false);
         ui->frame_loanRecords_columnFilters->setEnabled(true);
     }
-    FilterTableView();
 }
 
 void AdminPanel::ShowWarnTickAtLeastOne()
@@ -963,3 +854,74 @@ void AdminPanel::keyPressEvent(QKeyEvent *event)
     }
 }
 
+void AdminPanel::on_checkBox_readOnly_stateChanged(int arg1)
+{
+    if (ui->checkBox_readOnly->checkState() == Qt::Checked)
+    {
+        pCbD_ = new ComboBoxDelegate(ui->tableView_bookRecords);
+        pCbD_->SetEditorEnabled(false);
+        ui->tableView_bookRecords->setItemDelegateForColumn(BookRecordTableViewColumns::CATEGORY, pCbD_);
+        ui->tableView_bookRecords->setItemDelegateForColumn(BookRecordTableViewColumns::STATUS, pCbD_);
+
+        ui->tableView_bookRecords->setItemDelegateForColumn(BookRecordTableViewColumns::ID, new NotEditableDelegate());
+        ui->tableView_bookRecords->setItemDelegateForColumn(BookRecordTableViewColumns::ISBN13, new NotEditableDelegate());
+        ui->tableView_bookRecords->setItemDelegateForColumn(BookRecordTableViewColumns::TITLE, new NotEditableDelegate());
+        ui->tableView_bookRecords->setItemDelegateForColumn(BookRecordTableViewColumns::AUTHOR, new NotEditableDelegate());
+    }
+    else
+    {
+        pCbD_ = new ComboBoxDelegate(ui->tableView_bookRecords);
+        pCbD_->SetEditorEnabled(true);
+        ui->tableView_bookRecords->setItemDelegateForColumn(BookRecordTableViewColumns::CATEGORY, pCbD_);
+        ui->tableView_bookRecords->setItemDelegateForColumn(BookRecordTableViewColumns::STATUS, pCbD_);
+
+        NormalDelegate *ld = new NormalDelegate();
+        connect(ld, &NormalDelegate::InvalidIsbn, this, &AdminPanel::HandleInvalidIsbn);
+        ui->tableView_bookRecords->setItemDelegateForColumn(BookRecordTableViewColumns::ID, new NotEditableDelegate());
+        ui->tableView_bookRecords->setItemDelegateForColumn(BookRecordTableViewColumns::ISBN13, ld);
+        ui->tableView_bookRecords->setItemDelegateForColumn(BookRecordTableViewColumns::TITLE, ld);
+        ui->tableView_bookRecords->setItemDelegateForColumn(BookRecordTableViewColumns::AUTHOR, ld);
+    }
+}
+
+void AdminPanel::ReceiveEditBookRequest(int id, QString isbn13, QString title, QString author, int category, int status)
+{
+    qDebug() << id << isbn13 << title << author << category << status;
+
+    int selected_row = ui->tableView_bookRecords->selectionModel()->selectedRows().at(0).row();
+    QSqlRecord new_record = pBookRecordModel_->record(selected_row);
+
+    new_record.setValue(BookRecordTableViewColumns::ISBN13, isbn13);
+    new_record.setValue(BookRecordTableViewColumns::TITLE, title);
+    new_record.setValue(BookRecordTableViewColumns::AUTHOR, author);
+    new_record.setValue(BookRecordTableViewColumns::CATEGORY, category);
+    new_record.setValue(BookRecordTableViewColumns::STATUS, status);
+
+    QSqlTableModel::EditStrategy old_strat = pBookRecordModel_->editStrategy();
+    pBookRecordModel_->setEditStrategy(QSqlTableModel::EditStrategy::OnManualSubmit);
+    pBookRecordModel_->setRecord(selected_row, new_record);
+    pBookRecordModel_->submitAll();
+    pBookRecordModel_->setEditStrategy(old_strat);
+}
+
+void AdminPanel::on_pushButton_editBook_clicked()
+{
+    if (ui->tableView_bookRecords->selectionModel()->selectedRows().length() != 1)
+    {
+        QMessageBox::warning(this, "Oops!", "Please select one row!", QMessageBox::Ok);
+        return;
+    }
+    int selected_row = ui->tableView_bookRecords->selectionModel()->selectedRows().at(0).row();
+    QSqlRecord target_record = pBookRecordModel_->record(selected_row);
+
+    EditBookRecordDialog *d = new EditBookRecordDialog();
+    d->SetId(target_record.value(BookRecordTableViewColumns::ID).toInt());
+    d->SetIsbn13(target_record.value(BookRecordTableViewColumns::ISBN13).toString());
+    d->SetTitle(target_record.value(BookRecordTableViewColumns::TITLE).toString());
+    d->SetAuthor(target_record.value(BookRecordTableViewColumns::AUTHOR).toString());
+    d->SetCategory(Category::StringToEnum(target_record.value(BookRecordTableViewColumns::CATEGORY).toString()));
+    d->SetStatus(Status::StringToEnum(target_record.value(BookRecordTableViewColumns::STATUS).toString()));
+    d->PopulateWidgets();
+    connect(d, &EditBookRecordDialog::Submitted, this, &AdminPanel::ReceiveEditBookRequest);
+    d->exec();
+}

@@ -26,7 +26,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+    addbookrecorddialog.cpp \
     bookrecordqsqlrelationaltablemodel.cpp \
+    editbookrecorddialog.cpp \
+    isbn13validator.cpp \
     lineeditpopupdialoag.cpp \
     loanrecordqsqlrelationaltablemodel.cpp \
         main.cpp \
@@ -43,7 +46,10 @@ SOURCES += \
     qubyxsearchfilterproxymodel.cpp
 
 HEADERS += \
+    addbookrecorddialog.h \
     bookrecordqsqlrelationaltablemodel.h \
+    editbookrecorddialog.h \
+    isbn13validator.h \
     lineeditpopupdialoag.h \
     loanrecordqsqlrelationaltablemodel.h \
         mainwindow.h \
@@ -59,6 +65,8 @@ HEADERS += \
     qubyxsearchfilterproxymodel.h
 
 FORMS += \
+    addbookrecorddialog.ui \
+    editbookrecorddialog.ui \
     lineeditpopupdialoag.ui \
         mainwindow.ui \
     logindialog.ui \

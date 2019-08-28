@@ -26,6 +26,7 @@
         <file>release/resources/icons/database-2-line.svg</file>
         <file>release/resources/icons/file-text-line.svg</file>
         <file>release/resources/icons/user-received-line.svg</file>
+        <file>release/resources/icons/file-edit-line.svg</file>
     </qresource>
     <qresource prefix="/book_statuses">
         <file>release/resources/images/book_statuses/book_available.png</file>

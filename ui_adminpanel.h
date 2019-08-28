@@ -26,7 +26,6 @@
 #include <QtWidgets/QPlainTextEdit>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
-#include <QtWidgets/QSpinBox>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QTableView>
@@ -52,6 +51,7 @@ public:
     QLabel *label_numBookRecords;
     QLabel *label_numBookRecords_var;
     QSpacerItem *horizontalSpacer_2;
+    QCheckBox *checkBox_readOnly;
     QTableView *tableView_bookRecords;
     QWidget *tab_loanRecords_3;
     QHBoxLayout *horizontalLayout_2;
@@ -81,17 +81,9 @@ public:
     QHBoxLayout *horizontalLayout_22;
     QPushButton *pushButton_addBook;
     QPushButton *pushButton_deleteRecords;
-    QHBoxLayout *horizontalLayout_21;
-    QPushButton *pushButton_duplicateRecords;
-    QVBoxLayout *verticalLayout_8;
-    QLabel *label;
-    QSpinBox *spinBox_copiesToMake;
     QHBoxLayout *horizontalLayout_10;
-    QVBoxLayout *verticalLayout_9;
-    QPushButton *pushButton_submitChangesToDb;
-    QPushButton *pushButton_revertChanges;
+    QPushButton *pushButton_editBook;
     QPushButton *pushButton_reloadBook;
-    QCheckBox *checkBox_submitChangesAutomatically;
     QGroupBox *groupBox_loanAndReturn;
     QGridLayout *gridLayout_2;
     QVBoxLayout *verticalLayout_14;
@@ -217,6 +209,12 @@ public:
         horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout_16->addItem(horizontalSpacer_2);
+
+        checkBox_readOnly = new QCheckBox(tab_bookRecords_3);
+        checkBox_readOnly->setObjectName(QString::fromUtf8("checkBox_readOnly"));
+        checkBox_readOnly->setChecked(true);
+
+        horizontalLayout_16->addWidget(checkBox_readOnly);
 
 
         verticalLayout_6->addLayout(horizontalLayout_16);
@@ -415,62 +413,17 @@ public:
 
         verticalLayout_10->addLayout(horizontalLayout_22);
 
-        horizontalLayout_21 = new QHBoxLayout();
-        horizontalLayout_21->setObjectName(QString::fromUtf8("horizontalLayout_21"));
-        pushButton_duplicateRecords = new QPushButton(groupBox_recordManipulation);
-        pushButton_duplicateRecords->setObjectName(QString::fromUtf8("pushButton_duplicateRecords"));
-        sizePolicy4.setHeightForWidth(pushButton_duplicateRecords->sizePolicy().hasHeightForWidth());
-        pushButton_duplicateRecords->setSizePolicy(sizePolicy4);
-        QIcon icon4;
-        icon4.addFile(QString::fromUtf8(":/remix_icons/release/resources/icons/file-copy-line.svg"), QSize(), QIcon::Normal, QIcon::Off);
-        pushButton_duplicateRecords->setIcon(icon4);
-
-        horizontalLayout_21->addWidget(pushButton_duplicateRecords);
-
-        verticalLayout_8 = new QVBoxLayout();
-        verticalLayout_8->setObjectName(QString::fromUtf8("verticalLayout_8"));
-        label = new QLabel(groupBox_recordManipulation);
-        label->setObjectName(QString::fromUtf8("label"));
-
-        verticalLayout_8->addWidget(label);
-
-        spinBox_copiesToMake = new QSpinBox(groupBox_recordManipulation);
-        spinBox_copiesToMake->setObjectName(QString::fromUtf8("spinBox_copiesToMake"));
-        spinBox_copiesToMake->setMaximum(200);
-
-        verticalLayout_8->addWidget(spinBox_copiesToMake);
-
-
-        horizontalLayout_21->addLayout(verticalLayout_8);
-
-
-        verticalLayout_10->addLayout(horizontalLayout_21);
-
         horizontalLayout_10 = new QHBoxLayout();
         horizontalLayout_10->setObjectName(QString::fromUtf8("horizontalLayout_10"));
-        verticalLayout_9 = new QVBoxLayout();
-        verticalLayout_9->setSpacing(0);
-        verticalLayout_9->setObjectName(QString::fromUtf8("verticalLayout_9"));
-        pushButton_submitChangesToDb = new QPushButton(groupBox_recordManipulation);
-        pushButton_submitChangesToDb->setObjectName(QString::fromUtf8("pushButton_submitChangesToDb"));
-        pushButton_submitChangesToDb->setMinimumSize(QSize(0, 40));
-        QIcon icon5;
-        icon5.addFile(QString::fromUtf8(":/remix_icons/release/resources/icons/send-plane-2-line.svg"), QSize(), QIcon::Normal, QIcon::Off);
-        pushButton_submitChangesToDb->setIcon(icon5);
+        pushButton_editBook = new QPushButton(groupBox_recordManipulation);
+        pushButton_editBook->setObjectName(QString::fromUtf8("pushButton_editBook"));
+        sizePolicy4.setHeightForWidth(pushButton_editBook->sizePolicy().hasHeightForWidth());
+        pushButton_editBook->setSizePolicy(sizePolicy4);
+        QIcon icon4;
+        icon4.addFile(QString::fromUtf8(":/remix_icons/release/resources/icons/file-edit-line.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        pushButton_editBook->setIcon(icon4);
 
-        verticalLayout_9->addWidget(pushButton_submitChangesToDb);
-
-        pushButton_revertChanges = new QPushButton(groupBox_recordManipulation);
-        pushButton_revertChanges->setObjectName(QString::fromUtf8("pushButton_revertChanges"));
-        pushButton_revertChanges->setMinimumSize(QSize(0, 40));
-        QIcon icon6;
-        icon6.addFile(QString::fromUtf8(":/remix_icons/release/resources/icons/arrow-go-back-line.svg"), QSize(), QIcon::Normal, QIcon::Off);
-        pushButton_revertChanges->setIcon(icon6);
-
-        verticalLayout_9->addWidget(pushButton_revertChanges);
-
-
-        horizontalLayout_10->addLayout(verticalLayout_9);
+        horizontalLayout_10->addWidget(pushButton_editBook);
 
         pushButton_reloadBook = new QPushButton(groupBox_recordManipulation);
         pushButton_reloadBook->setObjectName(QString::fromUtf8("pushButton_reloadBook"));
@@ -483,12 +436,6 @@ public:
 
 
         verticalLayout_10->addLayout(horizontalLayout_10);
-
-        checkBox_submitChangesAutomatically = new QCheckBox(groupBox_recordManipulation);
-        checkBox_submitChangesAutomatically->setObjectName(QString::fromUtf8("checkBox_submitChangesAutomatically"));
-        checkBox_submitChangesAutomatically->setChecked(false);
-
-        verticalLayout_10->addWidget(checkBox_submitChangesAutomatically);
 
 
         gridLayout_3->addLayout(verticalLayout_10, 0, 0, 1, 1);
@@ -718,7 +665,7 @@ public:
         verticalLayout_5->addWidget(checkBox_filter_loanRecord_loanDate);
 
         checkBox_filter_loanRecord_dueDate = new QCheckBox(frame_loanRecords_columnFilters);
-        checkBox_filter_loanRecord_dueDate->setObjectName(QString::fromUtf8("checkBox_filter_loanRecord_returnDate"));
+        checkBox_filter_loanRecord_dueDate->setObjectName(QString::fromUtf8("checkBox_filter_loanRecord_dueDate"));
         checkBox_filter_loanRecord_dueDate->setChecked(true);
 
         verticalLayout_5->addWidget(checkBox_filter_loanRecord_dueDate);
@@ -750,9 +697,9 @@ public:
         QFont font;
         font.setPointSize(8);
         pushButton_updateView->setFont(font);
-        QIcon icon7;
-        icon7.addFile(QString::fromUtf8(":/remix_icons/release/resources/icons/search-eye-line.svg"), QSize(), QIcon::Normal, QIcon::Off);
-        pushButton_updateView->setIcon(icon7);
+        QIcon icon5;
+        icon5.addFile(QString::fromUtf8(":/remix_icons/release/resources/icons/search-eye-line.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        pushButton_updateView->setIcon(icon5);
 
         verticalLayout_2->addWidget(pushButton_updateView);
 
@@ -801,7 +748,9 @@ public:
         sizePolicy3.setHeightForWidth(pushButton->sizePolicy().hasHeightForWidth());
         pushButton->setSizePolicy(sizePolicy3);
         pushButton->setMinimumSize(QSize(0, 70));
-        pushButton->setIcon(icon5);
+        QIcon icon6;
+        icon6.addFile(QString::fromUtf8(":/remix_icons/release/resources/icons/send-plane-2-line.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        pushButton->setIcon(icon6);
 
         horizontalLayout_12->addWidget(pushButton);
 
@@ -824,9 +773,7 @@ public:
         AdminPanel->setStatusBar(statusbar);
         QWidget::setTabOrder(tableView_bookRecords, pushButton_reloadBook);
         QWidget::setTabOrder(pushButton_reloadBook, pushButton_addBook);
-        QWidget::setTabOrder(pushButton_addBook, pushButton_duplicateRecords);
-        QWidget::setTabOrder(pushButton_duplicateRecords, spinBox_copiesToMake);
-        QWidget::setTabOrder(spinBox_copiesToMake, pushButton_deleteRecords);
+        QWidget::setTabOrder(pushButton_addBook, pushButton_deleteRecords);
         QWidget::setTabOrder(pushButton_deleteRecords, lineEdit);
 
         retranslateUi(AdminPanel);
@@ -842,6 +789,7 @@ public:
         AdminPanel->setWindowTitle(QCoreApplication::translate("AdminPanel", "Admin Panel", nullptr));
         label_numBookRecords->setText(QCoreApplication::translate("AdminPanel", "Number of book records:", nullptr));
         label_numBookRecords_var->setText(QString());
+        checkBox_readOnly->setText(QCoreApplication::translate("AdminPanel", "Read Only", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab_bookRecords_3), QCoreApplication::translate("AdminPanel", "Book Records", nullptr));
         label_numLoanRecords->setText(QCoreApplication::translate("AdminPanel", "Number of loan records:", nullptr));
         label_numOverdueLoanRecords_var->setText(QString());
@@ -865,18 +813,17 @@ public:
         comboBox_qDateFormat->setItemText(7, QCoreApplication::translate("AdminPanel", "MM-d", nullptr));
 
         groupBox_recordManipulation->setTitle(QCoreApplication::translate("AdminPanel", "Record Manipulation", nullptr));
-        pushButton_addBook->setText(QCoreApplication::translate("AdminPanel", "Add", nullptr));
-        pushButton_deleteRecords->setText(QCoreApplication::translate("AdminPanel", "Delete \n"
-"Selected", nullptr));
-        pushButton_duplicateRecords->setText(QCoreApplication::translate("AdminPanel", "Duplicate \n"
-"Selected", nullptr));
-        label->setText(QCoreApplication::translate("AdminPanel", "Amount:", nullptr));
-        pushButton_submitChangesToDb->setText(QCoreApplication::translate("AdminPanel", "Submit Changes", nullptr));
-        pushButton_revertChanges->setText(QCoreApplication::translate("AdminPanel", "Revert Changes", nullptr));
+        pushButton_addBook->setText(QCoreApplication::translate("AdminPanel", "Register\n"
+"New Books", nullptr));
+        pushButton_deleteRecords->setText(QCoreApplication::translate("AdminPanel", "Delete\n"
+"Selected\n"
+"Books", nullptr));
+        pushButton_editBook->setText(QCoreApplication::translate("AdminPanel", "Edit\n"
+"Selected\n"
+"Books", nullptr));
         pushButton_reloadBook->setText(QCoreApplication::translate("AdminPanel", "Reload\n"
 "Books\n"
 "From DB", nullptr));
-        checkBox_submitChangesAutomatically->setText(QCoreApplication::translate("AdminPanel", "Submit to DB Automatically", nullptr));
         groupBox_loanAndReturn->setTitle(QCoreApplication::translate("AdminPanel", "Loan / Return", nullptr));
         label_3->setText(QCoreApplication::translate("AdminPanel", "Person ID:", nullptr));
         pushButton_editPersonId->setText(QCoreApplication::translate("AdminPanel", "Edit", nullptr));

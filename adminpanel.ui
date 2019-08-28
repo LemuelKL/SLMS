@@ -144,6 +144,16 @@
                     </property>
                    </spacer>
                   </item>
+                  <item>
+                   <widget class="QCheckBox" name="checkBox_readOnly">
+                    <property name="text">
+                     <string>Read Only</string>
+                    </property>
+                    <property name="checked">
+                     <bool>true</bool>
+                    </property>
+                   </widget>
+                  </item>
                  </layout>
                 </item>
                 <item>
@@ -465,7 +475,8 @@ Loan Records</string>
                       </sizepolicy>
                      </property>
                      <property name="text">
-                      <string>Add</string>
+                      <string>Register
+New Books</string>
                      </property>
                      <property name="icon">
                       <iconset resource="resource.qrc">
@@ -482,8 +493,9 @@ Loan Records</string>
                       </sizepolicy>
                      </property>
                      <property name="text">
-                      <string>Delete 
-Selected</string>
+                      <string>Delete
+Selected
+Books</string>
                      </property>
                      <property name="icon">
                       <iconset resource="resource.qrc">
@@ -494,9 +506,9 @@ Selected</string>
                   </layout>
                  </item>
                  <item>
-                  <layout class="QHBoxLayout" name="horizontalLayout_21">
+                  <layout class="QHBoxLayout" name="horizontalLayout_10">
                    <item>
-                    <widget class="QPushButton" name="pushButton_duplicateRecords">
+                    <widget class="QPushButton" name="pushButton_editBook">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                        <horstretch>0</horstretch>
@@ -504,77 +516,15 @@ Selected</string>
                       </sizepolicy>
                      </property>
                      <property name="text">
-                      <string>Duplicate 
-Selected</string>
+                      <string>Edit
+Selected
+Books</string>
                      </property>
                      <property name="icon">
                       <iconset resource="resource.qrc">
-                       <normaloff>:/remix_icons/release/resources/icons/file-copy-line.svg</normaloff>:/remix_icons/release/resources/icons/file-copy-line.svg</iconset>
+                       <normaloff>:/remix_icons/release/resources/icons/file-edit-line.svg</normaloff>:/remix_icons/release/resources/icons/file-edit-line.svg</iconset>
                      </property>
                     </widget>
-                   </item>
-                   <item>
-                    <layout class="QVBoxLayout" name="verticalLayout_8">
-                     <item>
-                      <widget class="QLabel" name="label">
-                       <property name="text">
-                        <string>Amount:</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QSpinBox" name="spinBox_copiesToMake">
-                       <property name="maximum">
-                        <number>200</number>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
-                   </item>
-                  </layout>
-                 </item>
-                 <item>
-                  <layout class="QHBoxLayout" name="horizontalLayout_10">
-                   <item>
-                    <layout class="QVBoxLayout" name="verticalLayout_9">
-                     <property name="spacing">
-                      <number>0</number>
-                     </property>
-                     <item>
-                      <widget class="QPushButton" name="pushButton_submitChangesToDb">
-                       <property name="minimumSize">
-                        <size>
-                         <width>0</width>
-                         <height>40</height>
-                        </size>
-                       </property>
-                       <property name="text">
-                        <string>Submit Changes</string>
-                       </property>
-                       <property name="icon">
-                        <iconset resource="resource.qrc">
-                         <normaloff>:/remix_icons/release/resources/icons/send-plane-2-line.svg</normaloff>:/remix_icons/release/resources/icons/send-plane-2-line.svg</iconset>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QPushButton" name="pushButton_revertChanges">
-                       <property name="minimumSize">
-                        <size>
-                         <width>0</width>
-                         <height>40</height>
-                        </size>
-                       </property>
-                       <property name="text">
-                        <string>Revert Changes</string>
-                       </property>
-                       <property name="icon">
-                        <iconset resource="resource.qrc">
-                         <normaloff>:/remix_icons/release/resources/icons/arrow-go-back-line.svg</normaloff>:/remix_icons/release/resources/icons/arrow-go-back-line.svg</iconset>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
                    </item>
                    <item>
                     <widget class="QPushButton" name="pushButton_reloadBook">
@@ -602,16 +552,6 @@ From DB</string>
                     </widget>
                    </item>
                   </layout>
-                 </item>
-                 <item>
-                  <widget class="QCheckBox" name="checkBox_submitChangesAutomatically">
-                   <property name="text">
-                    <string>Submit to DB Automatically</string>
-                   </property>
-                   <property name="checked">
-                    <bool>false</bool>
-                   </property>
-                  </widget>
                  </item>
                 </layout>
                </item>
@@ -995,7 +935,7 @@ From DB</string>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QCheckBox" name="checkBox_filter_loanRecord_returnDate">
+                     <widget class="QCheckBox" name="checkBox_filter_loanRecord_dueDate">
                       <property name="text">
                        <string>Return Date</string>
                       </property>
@@ -1175,8 +1115,6 @@ From DB</string>
   <tabstop>tableView_bookRecords</tabstop>
   <tabstop>pushButton_reloadBook</tabstop>
   <tabstop>pushButton_addBook</tabstop>
-  <tabstop>pushButton_duplicateRecords</tabstop>
-  <tabstop>spinBox_copiesToMake</tabstop>
   <tabstop>pushButton_deleteRecords</tabstop>
   <tabstop>lineEdit</tabstop>
  </tabstops>

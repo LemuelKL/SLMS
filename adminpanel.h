@@ -58,6 +58,10 @@ public slots:
 
     void ReceiveBookId(QString);
 
+    void ReceiveAddBookRequest(QString, QString, QString, int, int, int);
+
+    void ReceiveEditBookRequest(int, QString, QString, QString, int, int);
+
 private slots:
     void on_pushButton_addBook_clicked();
 
@@ -67,8 +71,6 @@ private slots:
     bool ReloadLoansToView();
 
     void on_pushButton_deleteRecords_clicked();
-
-    void on_pushButton_duplicateRecords_clicked();
 
     void on_pushButton_updateView_clicked();
 
@@ -85,12 +87,6 @@ private slots:
     void on_pushButton_editPersonId_clicked();
 
     void on_pushButton_editBookId_clicked();
-
-    void on_pushButton_submitChangesToDb_clicked();
-
-    void on_checkBox_submitChangesAutomatically_stateChanged(int arg1);
-
-    void on_pushButton_revertChanges_clicked();
 
     void on_tabWidget_currentChanged(int index);
 
@@ -111,6 +107,10 @@ private slots:
     void on_checkBox_highlight_onLoan_stateChanged(int arg1);
 
     void on_comboBox_qDateFormat_currentTextChanged(const QString &arg1);
+
+    void on_checkBox_readOnly_stateChanged(int arg1);
+
+    void on_pushButton_editBook_clicked();
 
 private:
     Ui::AdminPanel *ui;

@@ -17,6 +17,8 @@ public:
 
     MyQSqlRelationalDelegate *pMy_;
 
+    void SetEditorEnabled(bool enabled);
+
 protected:
     // https://doc.qt.io/qt-5/qstyleditemdelegate.html#reimplemented-public-functions
     virtual QWidget * createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
@@ -36,7 +38,7 @@ public slots:
 
 
 private:
-
+    bool editor_enabled_;
 };
 
 #endif // COMBOBOXDELEGATE_H
