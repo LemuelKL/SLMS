@@ -2,4 +2,5 @@
 /debug
 *.Debug
 *.Release
-*.pro.user
+SLMS.pro.user
+
