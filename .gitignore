@@ -5,3 +5,6 @@
 SLMS.pro.user
 
 *.user
+SLMS.pro.user
+Makefile.Release
+Makefile.Debug
