@@ -461,6 +461,11 @@ void AdminPanel::FilterTableView()
 
 void AdminPanel::on_pushButton_duplicateRecords_clicked()
 {
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this, "Are you sure?", "Duplication will NOT be cached and will be submitted to the DB automatically, continue?", QMessageBox::Yes|QMessageBox::No);
+    if (reply == QMessageBox::No)
+        return;
+
     if (ui->tableView_bookRecords->selectionModel()->hasSelection() && ui->tableView_bookRecords->selectionModel()->selectedRows().size() == 1)
     {
         QModelIndex a = ui->tableView_bookRecords->selectionModel()->selectedRows()[0];
@@ -474,7 +479,7 @@ void AdminPanel::on_pushButton_duplicateRecords_clicked()
         auto const proxy_index3 = proxy->index(row, 3);
         auto const proxy_index4 = proxy->index(row, 4);
         auto const proxy_index5 = proxy->index(row, 5);
-
+/*
         QSqlRecord record = pBookRecordModel_->record();
         record.setValue(1, ui->tableView_bookRecords->model()->data(proxy_index1).toString());
         record.setValue(2, ui->tableView_bookRecords->model()->data(proxy_index2).toString());
@@ -487,6 +492,23 @@ void AdminPanel::on_pushButton_duplicateRecords_clicked()
             qDebug() << "Duplicate - Trying to insert: " << record.value(1) << record.value(2) << record.value(3) << record.value(4) << record.value(5);
             qDebug() << "Duplicate - insertRecord state: " << pBookRecordModel_->insertRecord(-1, record);
         }
+*/
+        QSqlDatabase conn = QSqlDatabase::database("SLMS");
+        QSqlQuery qry = QSqlQuery(conn);
+        qry.prepare("INSERT INTO book (isbn13, title, author, category, status) "
+                          "VALUES (:isbn13,:title,:author,:category,:status)");
+        qry.bindValue(":isbn13", ui->tableView_bookRecords->model()->data(proxy_index1).toString());
+        qry.bindValue(":title", ui->tableView_bookRecords->model()->data(proxy_index2).toString());
+        qry.bindValue(":author", ui->tableView_bookRecords->model()->data(proxy_index3).toString());
+        qry.bindValue(":category", Category::StringToEnum(ui->tableView_bookRecords->model()->data(proxy_index4).toString()));
+        qry.bindValue(":status", Status::StringToEnum(ui->tableView_bookRecords->model()->data(proxy_index5).toString()));
+        qDebug()<<"can start a transaction:"<<QSqlDatabase::database("SLMS").transaction();
+        for(i = 0; i < num_duplicate_row; i++)
+        {
+          qry.exec();
+        }
+        qDebug()<<"end transaction:"<<QSqlDatabase::database("SLMS").commit();
+
         QString body_text = "Done duplicating " + QString::number(i) + " records!";
         QMessageBox::information(this, tr("Success!"), tr(body_text.toLocal8Bit().data()), QMessageBox::Ok);
         ui->spinBox_copiesToMake->setValue(0);
@@ -861,13 +883,14 @@ void AdminPanel::UpdateOverdueRecordsToLabel()
     for (int i = 0; i < num_records; i++)
     {
         if (model->canFetchMore())
+        {
             model->fetchMore();
+        }
         QModelIndex index_return_date = model->index(i, 4);
         QModelIndex hv_returned = model->index(i, 5);
         QDate return_date = QDate::fromString(index_return_date.data().toString(), "yyyyMMdd");
         if (return_date < today && hv_returned.data().toInt() == Return::NO)
         {
-            qDebug() << "Checking" << i;
             overdue_count++;
         }
     }

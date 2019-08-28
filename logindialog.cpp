@@ -32,6 +32,16 @@ LoginDialog::LoginDialog(QWidget *parent) :
     else
     {
         qDebug() << "SQL Driver Feature: size: " << conn.driver()->hasFeature(QSqlDriver::DriverFeature::QuerySize);
+        qDebug() << "SQL Driver Feature: transaction: " << conn.driver()->hasFeature(QSqlDriver::DriverFeature::Transactions);
+        conn.exec("PRAGMA synchronous = OFF");
+            if(conn.lastError().isValid()){
+                qDebug()<<"synchronous=OFF : "<<conn.lastError();
+            }
+            //this work on my pc too
+            conn.exec("PRAGMA journal_mode = MEMORY");
+            if(conn.lastError().isValid()){
+                qDebug()<<"synchronous=OFF : "<<conn.lastError();
+            }
         qDebug() << "Succesfully opened database connection!";
     }
     if (_empty_db)
