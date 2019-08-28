@@ -1,6 +1,6 @@
 #include <windows.h>
 
-IDI_ICON1	ICON	DISCARDABLE	"D:\\Users\\Lemuel\\Desktop\\SLMS Recompile\\SLMS.ico"
+IDI_ICON1	ICON	DISCARDABLE	"D:\\Users\\Lemuel\\Software-Development\\14. ICT Projects\\SBA\\ICT SBA 2020\\SLMS\\SLMS.ico"
 
 VS_VERSION_INFO VERSIONINFO
 	FILEVERSION 0,0,0,0
