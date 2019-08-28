@@ -1,0 +1,42 @@
+<RCC>
+    <qresource prefix="/remix_icons">
+        <file>release/resources/icons/check-line.svg</file>
+        <file>release/resources/icons/close-line.svg</file>
+        <file>release/resources/icons/question-line.svg</file>
+        <file>release/resources/icons/login-circle-line.svg</file>
+        <file>release/resources/icons/admin-line.svg</file>
+        <file>release/resources/icons/key-line.svg</file>
+        <file>release/resources/icons/key-2-line.svg</file>
+        <file>release/resources/icons/arrow-go-back-line.svg</file>
+        <file>release/resources/icons/delete-bin-2-line.svg</file>
+        <file>release/resources/icons/file-add-line.svg</file>
+        <file>release/resources/icons/refresh-line.svg</file>
+        <file>release/resources/icons/search-eye-line.svg</file>
+        <file>release/resources/icons/file-copy-line.svg</file>
+        <file>release/resources/icons/mail-send-line.svg</file>
+        <file>release/resources/icons/send-plane-2-line.svg</file>
+        <file>release/resources/icons/ball-pen-line.svg</file>
+        <file>release/resources/icons/book-2-line.svg</file>
+        <file>release/resources/icons/book-line.svg</file>
+        <file>release/resources/icons/bookmark-2-line.svg</file>
+        <file>release/resources/icons/computer-line.svg</file>
+        <file>release/resources/icons/hashtag.svg</file>
+        <file>release/resources/icons/calendar-event-line.svg</file>
+        <file>release/resources/icons/calendar-line.svg</file>
+        <file>release/resources/icons/database-2-line.svg</file>
+        <file>release/resources/icons/file-text-line.svg</file>
+        <file>release/resources/icons/user-received-line.svg</file>
+    </qresource>
+    <qresource prefix="/book_statuses">
+        <file>release/resources/images/book_statuses/book_available.png</file>
+        <file>release/resources/images/book_statuses/book_lost.png</file>
+        <file>release/resources/images/book_statuses/book_onLoan.png</file>
+        <file>release/resources/images/book_statuses/book_unknown.png</file>
+    </qresource>
+    <qresource prefix="/backgrounds">
+        <file>release/resources/images/backgrounds/adminpanel/light_wood.jpg</file>
+        <file>release/resources/images/backgrounds/adminpanel/dark_digitalNerons.jpg</file>
+        <file>release/resources/images/backgrounds/adminpanel/light_circles.jpg</file>
+        <file>release/resources/images/backgrounds/adminpanel/light_blueSolid.jpg</file>
+    </qresource>
+</RCC>
