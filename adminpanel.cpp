@@ -461,10 +461,13 @@ void AdminPanel::FilterTableView()
 
 void AdminPanel::on_pushButton_duplicateRecords_clicked()
 {
-    QMessageBox::StandardButton reply;
-    reply = QMessageBox::question(this, "Are you sure?", "Duplication will NOT be cached and will be submitted to the DB automatically, continue?", QMessageBox::Yes|QMessageBox::No);
-    if (reply == QMessageBox::No)
-        return;
+    if (!(ui->checkBox_submitChangesAutomatically->checkState() == Qt::Checked))
+    {
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::question(this, "Are you sure?", "Duplication will NOT be cached and will be submitted to the DB automatically, continue?", QMessageBox::Yes|QMessageBox::No);
+        if (reply == QMessageBox::No)
+            return;
+    }
 
     if (ui->tableView_bookRecords->selectionModel()->hasSelection() && ui->tableView_bookRecords->selectionModel()->selectedRows().size() == 1)
     {
