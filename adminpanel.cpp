@@ -214,7 +214,7 @@ void AdminPanel::ReloadNumOverdue()
     QSqlDatabase conn = QSqlDatabase::database("SLMS");
     QSqlQuery qry = QSqlQuery(conn);
     QString str_today = QDate::currentDate().toString("yyyyMMdd");
-    if (qry.exec("SELECT record_id FROM loan_record WHERE return_date < " + str_today))
+    if (qry.exec("SELECT record_id FROM loan_record WHERE due_date < " + str_today))
     {
         emit FetchNumOverdueSuccess(qry.record().count());
         return;
@@ -515,7 +515,7 @@ void AdminPanel::on_pushButton_loan_clicked()
                 QDate today = QDate::currentDate();
                 QDate due_date = today.addDays(num_days);
                 if (qry.exec("UPDATE book SET status = '"+QString::number(Status::ON_LOAN)+"' WHERE id = '"+loan_book_id+"'") &&
-                    qry.exec("INSERT INTO loan_record (book_id, person_id, loan_date, return_date, returned) VALUES ('"+loan_book_id+"', '"+loaner_id+"', '"+today.toString("yyyyMMdd")+"', '"+due_date.toString("yyyyMMdd")+"', '"+QString::number(Return::NO)+"')")   )
+                    qry.exec("INSERT INTO loan_record (book_id, person_id, loan_date, due_date, returned) VALUES ('"+loan_book_id+"', '"+loaner_id+"', '"+today.toString("yyyyMMdd")+"', '"+due_date.toString("yyyyMMdd")+"', '"+QString::number(Return::NO)+"')")   )
                 {
                     QString msg = "Successfully updated DB!\n";
                     msg += "\nBook ID: \t\t\t"+loan_book_id;

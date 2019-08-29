@@ -22,11 +22,11 @@ bool QubyxSearchFilterProxyModel::filterAcceptsRow(int sourceRow, const QModelIn
             {
                 if(sourceModel()->data(index).toString().trimmed().contains(filterRegExp()))
                 {
-                    QModelIndex index_return_date = sourceModel()->index(sourceRow, 4, sourceParent);
+                    QModelIndex index_due_date = sourceModel()->index(sourceRow, 4, sourceParent);
                     QModelIndex index_hv_returned = sourceModel()->index(sourceRow, 5, sourceParent);
 
                     QDate today = QDate::currentDate();
-                    QDate due_date = QDate::fromString(index_return_date.data(Qt::EditRole).toString(), "yyyyMMdd");
+                    QDate due_date = QDate::fromString(index_due_date.data(Qt::EditRole).toString(), "yyyyMMdd");
 
                     if (filter_overdue_enabled)
                     {

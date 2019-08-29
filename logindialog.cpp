@@ -50,7 +50,7 @@ LoginDialog::LoginDialog(QWidget *parent) :
 
         qry->exec("CREATE TABLE \"book\" ( \"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, \"isbn13\" TEXT NOT NULL, \"title\" TEXT NOT NULL, \"author\" TEXT NOT NULL, \"category\" INTEGER NOT NULL, \"status\" INTEGER NOT NULL )");
         qry->exec("CREATE TABLE \"category\" ( \"cat_id\" INTEGER, \"cat_name\" TEXT, PRIMARY KEY(\"cat_id\") )");
-        qry->exec("CREATE TABLE \"loan_record\" ( \"record_id\" INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, \"book_id\" INTEGER, \"person_id\" TEXT, \"loan_date\" INTEGER, \"return_date\" INTEGER, \"returned\" INTEGER )");
+        qry->exec("CREATE TABLE \"loan_record\" ( \"record_id\" INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, \"book_id\" INTEGER, \"person_id\" TEXT, \"loan_date\" INTEGER, \"due_date\" INTEGER, \"returned\" INTEGER )");
         qry->exec("CREATE TABLE \"status\" ( \"status_id\" INTEGER, \"status_name\" TEXT, PRIMARY KEY(\"status_id\") )");
         qry->exec("CREATE TABLE \"user\" ( \"username\" TEXT NOT NULL UNIQUE, \"password_sha512\" TEXT NOT NULL, \"role\" INTEGER DEFAULT 0 )");
         qry->exec("CREATE TABLE \"book_return\" (\"return_id\"	INTEGER,\"return_name\"	TEXT,PRIMARY KEY(\"return_id\"))");
