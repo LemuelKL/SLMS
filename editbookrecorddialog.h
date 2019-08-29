@@ -28,7 +28,7 @@ public:
 public slots:
     void HandleValidIsbn13();
 signals:
-    void Submitted(int id, QString isbn13, QString title, QString author, int category, int status);
+    void Submitted(QString isbn13, QString title, QString author, int category, int status, int id);
 
 private slots:
     void on_pushButton_submit_clicked();

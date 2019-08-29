@@ -5,6 +5,7 @@
 #include <bookrecordqsqlrelationaltablemodel.h>
 #include <qubyxsearchfilterproxymodel.h>
 #include <loanrecordqsqlrelationaltablemodel.h>
+#include <bookcoverdownloader.h>
 
 #include <QMainWindow>
 #include <QSqlTableModel>
@@ -66,7 +67,7 @@ public slots:
 
     void ReceiveAddBookRequest(QString, QString, QString, int, int, int);
 
-    void ReceiveEditBookRequest(int, QString, QString, QString, int, int);
+    void ReceiveEditBookRequest(QString, QString, QString, int, int, int);
 
 private slots:
     void on_pushButton_addBook_clicked();
@@ -121,6 +122,8 @@ private slots:
     void UpdateNumLoanToLabel(int num);
     void UpdateNumOverdueToLabel(int num);
     void on_checkBox_searchInViewOnly_stateChanged(int arg1);
+
+    void DownloadBookCover(QString isbn13);
 
 private:
     Ui::AdminPanel *ui;

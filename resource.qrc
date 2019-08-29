@@ -34,10 +34,4 @@
         <file>release/resources/images/book_statuses/book_onLoan.png</file>
         <file>release/resources/images/book_statuses/book_unknown.png</file>
     </qresource>
-    <qresource prefix="/backgrounds">
-        <file>release/resources/images/backgrounds/adminpanel/light_wood.jpg</file>
-        <file>release/resources/images/backgrounds/adminpanel/dark_digitalNerons.jpg</file>
-        <file>release/resources/images/backgrounds/adminpanel/light_circles.jpg</file>
-        <file>release/resources/images/backgrounds/adminpanel/light_blueSolid.jpg</file>
-    </qresource>
 </RCC>

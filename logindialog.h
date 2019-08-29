@@ -30,11 +30,10 @@ private slots:
 private:
     Ui::LoginDialog *ui;
 
-    void ShowWarnPassMsg(QString title, QString text);
     void HashBySha512(const char *, char *);
     bool IsEmptyDB();
 
-    bool _empty_db;
+    bool empty_db_;
 };
 
 #endif // LOGINDIALOG_H

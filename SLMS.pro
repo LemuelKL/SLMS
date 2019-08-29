@@ -5,7 +5,8 @@
 #-------------------------------------------------
 
 QT       += core gui \
-            sql
+            sql \
+            network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -27,6 +28,7 @@ CONFIG += c++11
 
 SOURCES += \
     addbookrecorddialog.cpp \
+    bookcoverdownloader.cpp \
     bookrecordqsqlrelationaltablemodel.cpp \
     editbookrecorddialog.cpp \
     isbn13validator.cpp \
@@ -47,6 +49,7 @@ SOURCES += \
 
 HEADERS += \
     addbookrecorddialog.h \
+    bookcoverdownloader.h \
     bookrecordqsqlrelationaltablemodel.h \
     editbookrecorddialog.h \
     isbn13validator.h \

@@ -39,6 +39,7 @@ AddBookRecordDialog::AddBookRecordDialog(QWidget *parent) :
     connect(validator, SIGNAL(IntermediateIsbn13()), this, SLOT(HandleIntermidateIsbn13()));
     connect(validator, SIGNAL(ValidIsbn13()), this, SLOT(HandleValidIsbn13()));
     ui->lineEdit_isbn13->setValidator(validator);
+
 }
 
 void AddBookRecordDialog::HandleInvalidIsbn13()

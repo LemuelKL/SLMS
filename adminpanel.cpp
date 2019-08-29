@@ -9,6 +9,7 @@
 #include <noteditabledelegate.h>
 #include <addbookrecorddialog.h>
 #include <editbookrecorddialog.h>
+#include <bookcoverdownloader.h>
 
 #include <QSqlQueryModel>
 #include <QSqlQuery>
@@ -21,6 +22,7 @@
 #include <QScrollBar>
 #include <QDate>
 #include <QVector>
+#include <QDir>
 
 AdminPanel::AdminPanel(QWidget *parent) :
     QMainWindow(parent),
@@ -153,6 +155,7 @@ AdminPanel::AdminPanel(QWidget *parent) :
     connect(ui->tabWidget, &QTabWidget::currentChanged, this, &AdminPanel::on_checkBox_searchInViewOnly_stateChanged);
     only_search_in_current_view_ = true;
     on_checkBox_searchInViewOnly_stateChanged(Qt::Checked);
+
 }
 
 void AdminPanel::HandleInvalidIsbn()
@@ -267,9 +270,24 @@ void AdminPanel::on_pushButton_addBook_clicked()
 {
     AddBookRecordDialog *dialog = new AddBookRecordDialog();
     connect(dialog, &AddBookRecordDialog::Submitted, this, &AdminPanel::ReceiveAddBookRequest);
+    connect(dialog, &AddBookRecordDialog::Submitted, this, &AdminPanel::DownloadBookCover);
     dialog->exec();
     ReloadNumBook();
     return;
+}
+
+void AdminPanel::DownloadBookCover(QString isbn13)
+{
+    QString img_dir_path = QCoreApplication::applicationDirPath() + QDir::separator() + "book_cover_pics" + QDir::separator();
+    QString path_png = img_dir_path + isbn13+".png";
+    QString path_jpg = img_dir_path + isbn13+".jpg";
+    if (QFileInfo::exists(path_png) && QFileInfo(path_png).isFile())
+        return;
+    if (QFileInfo::exists(path_jpg) && QFileInfo(path_jpg).isFile())
+        return;
+
+    qDebug() << "Requesting download for" << isbn13;
+    BookCoverDownloader *downloader = new BookCoverDownloader(isbn13);
 }
 
 void AdminPanel::on_pushButton_reloadBook_clicked()
@@ -864,7 +882,7 @@ void AdminPanel::on_checkBox_readOnly_stateChanged(int arg1)
     }
 }
 
-void AdminPanel::ReceiveEditBookRequest(int id, QString isbn13, QString title, QString author, int category, int status)
+void AdminPanel::ReceiveEditBookRequest(QString isbn13, QString title, QString author, int category, int status, int id)
 {
     qDebug() << id << isbn13 << title << author << category << status;
 
@@ -903,6 +921,7 @@ void AdminPanel::on_pushButton_editBook_clicked()
     d->SetStatus(Status::StringToEnum(target_record.value(BookRecordTableViewColumns::STATUS).toString()));
     d->PopulateWidgets();
     connect(d, &EditBookRecordDialog::Submitted, this, &AdminPanel::ReceiveEditBookRequest);
+    connect(d, &EditBookRecordDialog::Submitted, this, &AdminPanel::DownloadBookCover);
     d->exec();
 }
 

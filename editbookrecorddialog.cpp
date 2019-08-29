@@ -33,7 +33,7 @@ EditBookRecordDialog::EditBookRecordDialog(QWidget *parent) :
     QValidator *validator = new Isbn13Validator(this);
     connect(validator, SIGNAL(InvalidIsbn13()), this, SLOT(HandleInvalidIsbn13()));
     connect(validator, SIGNAL(IntermediateIsbn13()), this, SLOT(HandleIntermidateIsbn13()));
-   connect(validator, SIGNAL(ValidIsbn13()), this, SLOT(HandleValidIsbn13()));
+    connect(validator, SIGNAL(ValidIsbn13()), this, SLOT(HandleValidIsbn13()));
     ui->lineEdit_isbn13->setValidator(validator);
 }
 
@@ -100,6 +100,6 @@ void EditBookRecordDialog::PopulateWidgets()
 }
 void EditBookRecordDialog::on_pushButton_submit_clicked()
 {
-    emit Submitted(id_, ui->lineEdit_isbn13->text(), ui->lineEdit_title->text(), ui->lineEdit_author->text(), ui->comboBox_category->currentIndex(), ui->comboBox_status->currentIndex());
+    emit Submitted(ui->lineEdit_isbn13->text(), ui->lineEdit_title->text(), ui->lineEdit_author->text(), ui->comboBox_category->currentIndex(), ui->comboBox_status->currentIndex(), id_);
     this->hide();
 }
