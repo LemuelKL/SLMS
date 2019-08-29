@@ -82,7 +82,7 @@
              </size>
             </property>
             <property name="currentIndex">
-             <number>1</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="tab_bookRecords_3">
              <attribute name="title">
@@ -211,7 +211,7 @@
               <item>
                <layout class="QVBoxLayout" name="verticalLayout">
                 <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout">
+                 <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,1,0">
                   <item>
                    <layout class="QGridLayout" name="gridLayout">
                     <item row="0" column="0">
@@ -223,6 +223,18 @@
                     </item>
                     <item row="1" column="1">
                      <widget class="QLabel" name="label_numOverdueLoanRecords_var">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>60</width>
+                        <height>0</height>
+                       </size>
+                      </property>
                       <property name="text">
                        <string/>
                       </property>
@@ -230,6 +242,18 @@
                     </item>
                     <item row="0" column="1">
                      <widget class="QLabel" name="label_numLoanRecords_var">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>60</width>
+                        <height>0</height>
+                       </size>
+                      </property>
                       <property name="text">
                        <string/>
                       </property>
@@ -245,9 +269,34 @@
                    </layout>
                   </item>
                   <item>
+                   <spacer name="horizontalSpacer">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>40</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                  <item>
                    <layout class="QGridLayout" name="gridLayout_5">
                     <item row="0" column="0">
                      <widget class="QCheckBox" name="checkBox_highlight_onLoan">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>160</width>
+                        <height>0</height>
+                       </size>
+                      </property>
                       <property name="text">
                        <string>Highlight On Loan Records</string>
                       </property>
@@ -255,6 +304,18 @@
                     </item>
                     <item row="0" column="1">
                      <widget class="QCheckBox" name="checkBox_filter_loanRecord_onLoan">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>160</width>
+                        <height>0</height>
+                       </size>
+                      </property>
                       <property name="text">
                        <string>Show On Loan Records Only</string>
                       </property>
@@ -262,6 +323,18 @@
                     </item>
                     <item row="1" column="0">
                      <widget class="QCheckBox" name="checkBox_highlight_overdue">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>160</width>
+                        <height>0</height>
+                       </size>
+                      </property>
                       <property name="text">
                        <string>Highlight Overdue Records</string>
                       </property>
@@ -269,6 +342,18 @@
                     </item>
                     <item row="1" column="1">
                      <widget class="QCheckBox" name="checkBox_filter_loanRecord_overdue">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>160</width>
+                        <height>0</height>
+                       </size>
+                      </property>
                       <property name="text">
                        <string>Show Overdue Records Only</string>
                       </property>
@@ -279,10 +364,22 @@
                   <item>
                    <widget class="QPushButton" name="pushButton_reloadLoans">
                     <property name="sizePolicy">
-                     <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+                     <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
                       <horstretch>0</horstretch>
                       <verstretch>0</verstretch>
                      </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>50</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>130</width>
+                      <height>50</height>
+                     </size>
                     </property>
                     <property name="text">
                      <string>Reload
@@ -966,13 +1063,6 @@ From DB</string>
                  <item>
                   <layout class="QVBoxLayout" name="verticalLayout_2">
                    <item>
-                    <widget class="QCheckBox" name="checkBox_filter_caseSensitive">
-                     <property name="text">
-                      <string>Case Sensitive</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
                     <widget class="QPushButton" name="pushButton_updateView">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
@@ -997,6 +1087,23 @@ From DB</string>
                      <property name="icon">
                       <iconset resource="resource.qrc">
                        <normaloff>:/remix_icons/release/resources/icons/search-eye-line.svg</normaloff>:/remix_icons/release/resources/icons/search-eye-line.svg</iconset>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QCheckBox" name="checkBox_filter_caseSensitive">
+                     <property name="text">
+                      <string>Case Sensitive</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QCheckBox" name="checkBox_searchInViewOnly">
+                     <property name="text">
+                      <string>Search In View Only</string>
+                     </property>
+                     <property name="checked">
+                      <bool>true</bool>
                      </property>
                     </widget>
                    </item>

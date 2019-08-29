@@ -149,6 +149,10 @@ AdminPanel::AdminPanel(QWidget *parent) :
     connect(this, &AdminPanel::FetchNumOverdueSuccess, this, &AdminPanel::UpdateNumOverdueToLabel);
     ReloadNumLoan();
     ReloadNumOverdue();
+
+    connect(ui->tabWidget, &QTabWidget::currentChanged, this, &AdminPanel::on_checkBox_searchInViewOnly_stateChanged);
+    only_search_in_current_view_ = true;
+    on_checkBox_searchInViewOnly_stateChanged(Qt::Checked);
 }
 
 void AdminPanel::HandleInvalidIsbn()
@@ -273,6 +277,8 @@ void AdminPanel::on_pushButton_reloadBook_clicked()
     if (RefreshBookTab())
     {
         QMessageBox::information(this, tr("Done!"), tr("Successfully reloaded book data from DB to view!"), QMessageBox::Ok);
+        ui->checkBox_searchInViewOnly->setCheckState(Qt::CheckState::Checked);
+        FilterTableView();
     }
     else
     {
@@ -285,6 +291,8 @@ void AdminPanel::on_pushButton_reloadLoans_clicked()
     if (RefreshLoanTab())
     {
         QMessageBox::information(this, tr("Done!"), tr("Successfully reloaded loan data from DB to view!"), QMessageBox::Ok);
+        ui->checkBox_searchInViewOnly->setCheckState(Qt::CheckState::Checked);
+        FilterTableView();
     }
     else
     {
@@ -411,9 +419,12 @@ void AdminPanel::FilterTableView()
         QRegExp regExp(ui->lineEdit->text(), (ui->checkBox_filter_caseSensitive->checkState() == Qt::Checked) ? Qt::CaseSensitive : Qt::CaseInsensitive, QRegExp::FixedString);
         pBookRecordSearchProxyModel_->setFilterRegExp(regExp);
 
-        while (pBookRecordModel_->canFetchMore())
+        if (!only_search_in_current_view_)
         {
-            pBookRecordModel_->fetchMore();
+            while (pBookRecordModel_->canFetchMore())
+            {
+                pBookRecordModel_->fetchMore();
+            }
         }
         qDebug() << "pBookRecordModel_ - Source:" << pBookRecordModel_->rowCount() << "pBookRecordSearchProxyModel_ - Displaying:" << pBookRecordSearchProxyModel_->rowCount();
     }
@@ -457,10 +468,12 @@ void AdminPanel::FilterTableView()
         QRegExp regExp(ui->lineEdit->text(), (ui->checkBox_filter_caseSensitive->checkState() == Qt::Checked) ? Qt::CaseSensitive : Qt::CaseInsensitive, QRegExp::FixedString);
         pLoanRecordSearchProxyModel_->setFilterRegExp(regExp);
 
-        while (pLoanRecordModel_->canFetchMore())
+        if (!only_search_in_current_view_)
         {
-            pLoanRecordModel_->fetchMore();
-
+            while (pLoanRecordModel_->canFetchMore())
+            {
+                pLoanRecordModel_->fetchMore();
+            }
         }
         qDebug() << "pLoanRecordModel_ - Source:" << pLoanRecordModel_->rowCount() << "pLoanRecordSearchProxyModel_ - Displaying:" << pLoanRecordSearchProxyModel_->rowCount();
     }
@@ -914,4 +927,25 @@ void AdminPanel::UpdateNumBookToLabel(int num)
 {
     qDebug() << "Updated Book Label";
     ui->label_numBookRecords_var->setText(QString::number(num));
+}
+
+void AdminPanel::on_checkBox_searchInViewOnly_stateChanged(int arg1)
+{
+    Q_UNUSED(arg1);
+    only_search_in_current_view_ = ui->checkBox_searchInViewOnly->checkState() == Qt::Checked;
+
+    if (only_search_in_current_view_)
+    {
+        if (ui->tabWidget->currentIndex() == 0)
+            ui->pushButton_updateView->setText("Search\n[ " + QString::number(pBookRecordModel_->rowCount()) + " ]");
+        if (ui->tabWidget->currentIndex() == 1)
+            ui->pushButton_updateView->setText("Search\n[ " + QString::number(pLoanRecordModel_->rowCount()) + " ]");
+    }
+    if (!only_search_in_current_view_)
+    {
+        if (ui->tabWidget->currentIndex() == 0)
+            ui->pushButton_updateView->setText("Search\n[ " + ui->label_numBookRecords_var->text() + " ]");
+        if (ui->tabWidget->currentIndex() == 1)
+            ui->pushButton_updateView->setText("Search\n[ " + ui->label_numLoanRecords_var->text() + " ]");
+    }
 }

@@ -62,6 +62,7 @@ public:
     QLabel *label_numOverdueLoanRecords_var;
     QLabel *label_numLoanRecords_var;
     QLabel *label_numOverdueLoanRecords;
+    QSpacerItem *horizontalSpacer;
     QGridLayout *gridLayout_5;
     QCheckBox *checkBox_highlight_onLoan;
     QCheckBox *checkBox_filter_loanRecord_onLoan;
@@ -126,8 +127,9 @@ public:
     QCheckBox *checkBox_filter_loanRecord_dueDate;
     QCheckBox *checkBox_filter_loanRecord_hvReturned;
     QVBoxLayout *verticalLayout_2;
-    QCheckBox *checkBox_filter_caseSensitive;
     QPushButton *pushButton_updateView;
+    QCheckBox *checkBox_filter_caseSensitive;
+    QCheckBox *checkBox_searchInViewOnly;
     QCheckBox *checkBox_updateViewAsIType;
     QGroupBox *groupBox_sqlMassAction;
     QHBoxLayout *horizontalLayout_12;
@@ -256,11 +258,20 @@ public:
 
         label_numOverdueLoanRecords_var = new QLabel(tab_loanRecords_3);
         label_numOverdueLoanRecords_var->setObjectName(QString::fromUtf8("label_numOverdueLoanRecords_var"));
+        QSizePolicy sizePolicy3(QSizePolicy::Minimum, QSizePolicy::Preferred);
+        sizePolicy3.setHorizontalStretch(0);
+        sizePolicy3.setVerticalStretch(0);
+        sizePolicy3.setHeightForWidth(label_numOverdueLoanRecords_var->sizePolicy().hasHeightForWidth());
+        label_numOverdueLoanRecords_var->setSizePolicy(sizePolicy3);
+        label_numOverdueLoanRecords_var->setMinimumSize(QSize(60, 0));
 
         gridLayout->addWidget(label_numOverdueLoanRecords_var, 1, 1, 1, 1);
 
         label_numLoanRecords_var = new QLabel(tab_loanRecords_3);
         label_numLoanRecords_var->setObjectName(QString::fromUtf8("label_numLoanRecords_var"));
+        sizePolicy3.setHeightForWidth(label_numLoanRecords_var->sizePolicy().hasHeightForWidth());
+        label_numLoanRecords_var->setSizePolicy(sizePolicy3);
+        label_numLoanRecords_var->setMinimumSize(QSize(60, 0));
 
         gridLayout->addWidget(label_numLoanRecords_var, 0, 1, 1, 1);
 
@@ -272,25 +283,41 @@ public:
 
         horizontalLayout->addLayout(gridLayout);
 
+        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout->addItem(horizontalSpacer);
+
         gridLayout_5 = new QGridLayout();
         gridLayout_5->setObjectName(QString::fromUtf8("gridLayout_5"));
         checkBox_highlight_onLoan = new QCheckBox(tab_loanRecords_3);
         checkBox_highlight_onLoan->setObjectName(QString::fromUtf8("checkBox_highlight_onLoan"));
+        sizePolicy2.setHeightForWidth(checkBox_highlight_onLoan->sizePolicy().hasHeightForWidth());
+        checkBox_highlight_onLoan->setSizePolicy(sizePolicy2);
+        checkBox_highlight_onLoan->setMinimumSize(QSize(160, 0));
 
         gridLayout_5->addWidget(checkBox_highlight_onLoan, 0, 0, 1, 1);
 
         checkBox_filter_loanRecord_onLoan = new QCheckBox(tab_loanRecords_3);
         checkBox_filter_loanRecord_onLoan->setObjectName(QString::fromUtf8("checkBox_filter_loanRecord_onLoan"));
+        sizePolicy2.setHeightForWidth(checkBox_filter_loanRecord_onLoan->sizePolicy().hasHeightForWidth());
+        checkBox_filter_loanRecord_onLoan->setSizePolicy(sizePolicy2);
+        checkBox_filter_loanRecord_onLoan->setMinimumSize(QSize(160, 0));
 
         gridLayout_5->addWidget(checkBox_filter_loanRecord_onLoan, 0, 1, 1, 1);
 
         checkBox_highlight_overdue = new QCheckBox(tab_loanRecords_3);
         checkBox_highlight_overdue->setObjectName(QString::fromUtf8("checkBox_highlight_overdue"));
+        sizePolicy2.setHeightForWidth(checkBox_highlight_overdue->sizePolicy().hasHeightForWidth());
+        checkBox_highlight_overdue->setSizePolicy(sizePolicy2);
+        checkBox_highlight_overdue->setMinimumSize(QSize(160, 0));
 
         gridLayout_5->addWidget(checkBox_highlight_overdue, 1, 0, 1, 1);
 
         checkBox_filter_loanRecord_overdue = new QCheckBox(tab_loanRecords_3);
         checkBox_filter_loanRecord_overdue->setObjectName(QString::fromUtf8("checkBox_filter_loanRecord_overdue"));
+        sizePolicy2.setHeightForWidth(checkBox_filter_loanRecord_overdue->sizePolicy().hasHeightForWidth());
+        checkBox_filter_loanRecord_overdue->setSizePolicy(sizePolicy2);
+        checkBox_filter_loanRecord_overdue->setMinimumSize(QSize(160, 0));
 
         gridLayout_5->addWidget(checkBox_filter_loanRecord_overdue, 1, 1, 1, 1);
 
@@ -299,17 +326,20 @@ public:
 
         pushButton_reloadLoans = new QPushButton(tab_loanRecords_3);
         pushButton_reloadLoans->setObjectName(QString::fromUtf8("pushButton_reloadLoans"));
-        QSizePolicy sizePolicy3(QSizePolicy::Minimum, QSizePolicy::Expanding);
-        sizePolicy3.setHorizontalStretch(0);
-        sizePolicy3.setVerticalStretch(0);
-        sizePolicy3.setHeightForWidth(pushButton_reloadLoans->sizePolicy().hasHeightForWidth());
-        pushButton_reloadLoans->setSizePolicy(sizePolicy3);
+        QSizePolicy sizePolicy4(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+        sizePolicy4.setHorizontalStretch(0);
+        sizePolicy4.setVerticalStretch(0);
+        sizePolicy4.setHeightForWidth(pushButton_reloadLoans->sizePolicy().hasHeightForWidth());
+        pushButton_reloadLoans->setSizePolicy(sizePolicy4);
+        pushButton_reloadLoans->setMinimumSize(QSize(0, 50));
+        pushButton_reloadLoans->setMaximumSize(QSize(130, 50));
         QIcon icon1;
         icon1.addFile(QString::fromUtf8(":/remix_icons/release/resources/icons/refresh-line.svg"), QSize(), QIcon::Normal, QIcon::Off);
         pushButton_reloadLoans->setIcon(icon1);
 
         horizontalLayout->addWidget(pushButton_reloadLoans);
 
+        horizontalLayout->setStretch(2, 1);
 
         verticalLayout->addLayout(horizontalLayout);
 
@@ -349,9 +379,6 @@ public:
         horizontalLayout_3->setObjectName(QString::fromUtf8("horizontalLayout_3"));
         label_today = new QLabel(frame_actions);
         label_today->setObjectName(QString::fromUtf8("label_today"));
-        QSizePolicy sizePolicy4(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
-        sizePolicy4.setHorizontalStretch(0);
-        sizePolicy4.setVerticalStretch(0);
         sizePolicy4.setHeightForWidth(label_today->sizePolicy().hasHeightForWidth());
         label_today->setSizePolicy(sizePolicy4);
         label_today->setMinimumSize(QSize(150, 20));
@@ -394,8 +421,11 @@ public:
         horizontalLayout_22->setObjectName(QString::fromUtf8("horizontalLayout_22"));
         pushButton_addBook = new QPushButton(groupBox_recordManipulation);
         pushButton_addBook->setObjectName(QString::fromUtf8("pushButton_addBook"));
-        sizePolicy3.setHeightForWidth(pushButton_addBook->sizePolicy().hasHeightForWidth());
-        pushButton_addBook->setSizePolicy(sizePolicy3);
+        QSizePolicy sizePolicy5(QSizePolicy::Minimum, QSizePolicy::Expanding);
+        sizePolicy5.setHorizontalStretch(0);
+        sizePolicy5.setVerticalStretch(0);
+        sizePolicy5.setHeightForWidth(pushButton_addBook->sizePolicy().hasHeightForWidth());
+        pushButton_addBook->setSizePolicy(sizePolicy5);
         QIcon icon2;
         icon2.addFile(QString::fromUtf8(":/remix_icons/release/resources/icons/file-add-line.svg"), QSize(), QIcon::Normal, QIcon::Off);
         pushButton_addBook->setIcon(icon2);
@@ -404,8 +434,8 @@ public:
 
         pushButton_deleteRecords = new QPushButton(groupBox_recordManipulation);
         pushButton_deleteRecords->setObjectName(QString::fromUtf8("pushButton_deleteRecords"));
-        sizePolicy3.setHeightForWidth(pushButton_deleteRecords->sizePolicy().hasHeightForWidth());
-        pushButton_deleteRecords->setSizePolicy(sizePolicy3);
+        sizePolicy5.setHeightForWidth(pushButton_deleteRecords->sizePolicy().hasHeightForWidth());
+        pushButton_deleteRecords->setSizePolicy(sizePolicy5);
         QIcon icon3;
         icon3.addFile(QString::fromUtf8(":/remix_icons/release/resources/icons/delete-bin-2-line.svg"), QSize(), QIcon::Normal, QIcon::Off);
         pushButton_deleteRecords->setIcon(icon3);
@@ -419,8 +449,8 @@ public:
         horizontalLayout_10->setObjectName(QString::fromUtf8("horizontalLayout_10"));
         pushButton_editBook = new QPushButton(groupBox_recordManipulation);
         pushButton_editBook->setObjectName(QString::fromUtf8("pushButton_editBook"));
-        sizePolicy3.setHeightForWidth(pushButton_editBook->sizePolicy().hasHeightForWidth());
-        pushButton_editBook->setSizePolicy(sizePolicy3);
+        sizePolicy5.setHeightForWidth(pushButton_editBook->sizePolicy().hasHeightForWidth());
+        pushButton_editBook->setSizePolicy(sizePolicy5);
         QIcon icon4;
         icon4.addFile(QString::fromUtf8(":/remix_icons/release/resources/icons/file-edit-line.svg"), QSize(), QIcon::Normal, QIcon::Off);
         pushButton_editBook->setIcon(icon4);
@@ -429,8 +459,8 @@ public:
 
         pushButton_reloadBook = new QPushButton(groupBox_recordManipulation);
         pushButton_reloadBook->setObjectName(QString::fromUtf8("pushButton_reloadBook"));
-        sizePolicy3.setHeightForWidth(pushButton_reloadBook->sizePolicy().hasHeightForWidth());
-        pushButton_reloadBook->setSizePolicy(sizePolicy3);
+        sizePolicy5.setHeightForWidth(pushButton_reloadBook->sizePolicy().hasHeightForWidth());
+        pushButton_reloadBook->setSizePolicy(sizePolicy5);
         pushButton_reloadBook->setMinimumSize(QSize(0, 50));
         pushButton_reloadBook->setIcon(icon1);
 
@@ -543,15 +573,15 @@ public:
         horizontalLayout_26->setObjectName(QString::fromUtf8("horizontalLayout_26"));
         pushButton_loan = new QPushButton(groupBox_loanAndReturn);
         pushButton_loan->setObjectName(QString::fromUtf8("pushButton_loan"));
-        sizePolicy3.setHeightForWidth(pushButton_loan->sizePolicy().hasHeightForWidth());
-        pushButton_loan->setSizePolicy(sizePolicy3);
+        sizePolicy5.setHeightForWidth(pushButton_loan->sizePolicy().hasHeightForWidth());
+        pushButton_loan->setSizePolicy(sizePolicy5);
 
         horizontalLayout_26->addWidget(pushButton_loan);
 
         pushButton_return = new QPushButton(groupBox_loanAndReturn);
         pushButton_return->setObjectName(QString::fromUtf8("pushButton_return"));
-        sizePolicy3.setHeightForWidth(pushButton_return->sizePolicy().hasHeightForWidth());
-        pushButton_return->setSizePolicy(sizePolicy3);
+        sizePolicy5.setHeightForWidth(pushButton_return->sizePolicy().hasHeightForWidth());
+        pushButton_return->setSizePolicy(sizePolicy5);
 
         horizontalLayout_26->addWidget(pushButton_return);
 
@@ -683,18 +713,13 @@ public:
 
         verticalLayout_2 = new QVBoxLayout();
         verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
-        checkBox_filter_caseSensitive = new QCheckBox(groupBox_searching);
-        checkBox_filter_caseSensitive->setObjectName(QString::fromUtf8("checkBox_filter_caseSensitive"));
-
-        verticalLayout_2->addWidget(checkBox_filter_caseSensitive);
-
         pushButton_updateView = new QPushButton(groupBox_searching);
         pushButton_updateView->setObjectName(QString::fromUtf8("pushButton_updateView"));
-        QSizePolicy sizePolicy5(QSizePolicy::Minimum, QSizePolicy::Minimum);
-        sizePolicy5.setHorizontalStretch(0);
-        sizePolicy5.setVerticalStretch(0);
-        sizePolicy5.setHeightForWidth(pushButton_updateView->sizePolicy().hasHeightForWidth());
-        pushButton_updateView->setSizePolicy(sizePolicy5);
+        QSizePolicy sizePolicy6(QSizePolicy::Minimum, QSizePolicy::Minimum);
+        sizePolicy6.setHorizontalStretch(0);
+        sizePolicy6.setVerticalStretch(0);
+        sizePolicy6.setHeightForWidth(pushButton_updateView->sizePolicy().hasHeightForWidth());
+        pushButton_updateView->setSizePolicy(sizePolicy6);
         pushButton_updateView->setMinimumSize(QSize(0, 6));
         QFont font;
         font.setPointSize(8);
@@ -704,6 +729,17 @@ public:
         pushButton_updateView->setIcon(icon5);
 
         verticalLayout_2->addWidget(pushButton_updateView);
+
+        checkBox_filter_caseSensitive = new QCheckBox(groupBox_searching);
+        checkBox_filter_caseSensitive->setObjectName(QString::fromUtf8("checkBox_filter_caseSensitive"));
+
+        verticalLayout_2->addWidget(checkBox_filter_caseSensitive);
+
+        checkBox_searchInViewOnly = new QCheckBox(groupBox_searching);
+        checkBox_searchInViewOnly->setObjectName(QString::fromUtf8("checkBox_searchInViewOnly"));
+        checkBox_searchInViewOnly->setChecked(true);
+
+        verticalLayout_2->addWidget(checkBox_searchInViewOnly);
 
         checkBox_updateViewAsIType = new QCheckBox(groupBox_searching);
         checkBox_updateViewAsIType->setObjectName(QString::fromUtf8("checkBox_updateViewAsIType"));
@@ -732,11 +768,11 @@ public:
         horizontalLayout_12->setObjectName(QString::fromUtf8("horizontalLayout_12"));
         plainTextEdit = new QPlainTextEdit(groupBox_sqlMassAction);
         plainTextEdit->setObjectName(QString::fromUtf8("plainTextEdit"));
-        QSizePolicy sizePolicy6(QSizePolicy::Expanding, QSizePolicy::Fixed);
-        sizePolicy6.setHorizontalStretch(0);
-        sizePolicy6.setVerticalStretch(0);
-        sizePolicy6.setHeightForWidth(plainTextEdit->sizePolicy().hasHeightForWidth());
-        plainTextEdit->setSizePolicy(sizePolicy6);
+        QSizePolicy sizePolicy7(QSizePolicy::Expanding, QSizePolicy::Fixed);
+        sizePolicy7.setHorizontalStretch(0);
+        sizePolicy7.setVerticalStretch(0);
+        sizePolicy7.setHeightForWidth(plainTextEdit->sizePolicy().hasHeightForWidth());
+        plainTextEdit->setSizePolicy(sizePolicy7);
         plainTextEdit->setMinimumSize(QSize(0, 70));
         plainTextEdit->setMaximumSize(QSize(16777215, 70));
         plainTextEdit->setStyleSheet(QString::fromUtf8("background-color: rgb(227, 227, 227)"));
@@ -780,7 +816,7 @@ public:
 
         retranslateUi(AdminPanel);
 
-        tabWidget->setCurrentIndex(1);
+        tabWidget->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(AdminPanel);
@@ -864,8 +900,9 @@ public:
         checkBox_filter_loanRecord_loanDate->setText(QCoreApplication::translate("AdminPanel", "Loan Date", nullptr));
         checkBox_filter_loanRecord_dueDate->setText(QCoreApplication::translate("AdminPanel", "Return Date", nullptr));
         checkBox_filter_loanRecord_hvReturned->setText(QCoreApplication::translate("AdminPanel", "Returned?", nullptr));
-        checkBox_filter_caseSensitive->setText(QCoreApplication::translate("AdminPanel", "Case Sensitive", nullptr));
         pushButton_updateView->setText(QCoreApplication::translate("AdminPanel", "Search", nullptr));
+        checkBox_filter_caseSensitive->setText(QCoreApplication::translate("AdminPanel", "Case Sensitive", nullptr));
+        checkBox_searchInViewOnly->setText(QCoreApplication::translate("AdminPanel", "Search In View Only", nullptr));
         checkBox_updateViewAsIType->setText(QCoreApplication::translate("AdminPanel", "Search As I Type", nullptr));
         groupBox_sqlMassAction->setTitle(QCoreApplication::translate("AdminPanel", "SQL Mass Action", nullptr));
         pushButton->setText(QCoreApplication::translate("AdminPanel", "Submit", nullptr));

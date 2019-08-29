@@ -16,11 +16,13 @@ public:
     explicit LoginDialog(QWidget *parent = nullptr);
     ~LoginDialog();
 
+    void InitializeDatabase();
+    
 signals:
-    void LoginAdmin(QString username);
-    void LoginTeacher(QString username);
-    void LoginStudent(QString username);
     void LoginGuest(QString username);
+    void LoginStudent(QString username);
+    void LoginTeacher(QString username);
+    void LoginAdmin(QString username);
 
 private slots:
     void on_pushButton_login_clicked();

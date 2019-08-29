@@ -120,6 +120,8 @@ private slots:
     void UpdateNumBookToLabel(int num);
     void UpdateNumLoanToLabel(int num);
     void UpdateNumOverdueToLabel(int num);
+    void on_checkBox_searchInViewOnly_stateChanged(int arg1);
+
 private:
     Ui::AdminPanel *ui;
 
@@ -147,6 +149,9 @@ private:
     void ReloadNumBook();
     void ReloadNumLoan();
     void ReloadNumOverdue();
+
+    bool only_search_in_current_view_;
+    bool force_ignore_search_term;
 };
 
 #endif // ADMINPANEL_H
