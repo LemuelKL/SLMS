@@ -10,6 +10,7 @@
 #include <addbookrecorddialog.h>
 #include <editbookrecorddialog.h>
 #include <bookcoverdownloader.h>
+#include <constant.h>
 
 #include <QSqlQueryModel>
 #include <QSqlQuery>
@@ -156,6 +157,16 @@ AdminPanel::AdminPanel(QWidget *parent) :
     only_search_in_current_view_ = true;
     on_checkBox_searchInViewOnly_stateChanged(Qt::Checked);
 
+    CreateBookCoverFolderIfNotExist();
+}
+
+void AdminPanel::CreateBookCoverFolderIfNotExist()
+{
+    QString book_cover_dir = QCoreApplication::applicationDirPath() + QDir::separator() + BOOK_COVER_DIR_NAME + QDir::separator();
+    if (QFileInfo::exists(book_cover_dir) && QFileInfo(book_cover_dir).isDir())
+        return;
+    QDir dir(QCoreApplication::applicationDirPath() + QDir::separator());
+    qDebug() << "Making book cover folder:" << dir.mkdir(BOOK_COVER_DIR_NAME);
 }
 
 void AdminPanel::HandleInvalidIsbn()
@@ -279,7 +290,7 @@ void AdminPanel::on_pushButton_addBook_clicked()
 
 void AdminPanel::DownloadBookCover(QString isbn13)
 {
-    QString img_dir_path = QCoreApplication::applicationDirPath() + QDir::separator() + "book_cover_pics" + QDir::separator();
+    QString img_dir_path = QCoreApplication::applicationDirPath() + QDir::separator() + BOOK_COVER_DIR_NAME + QDir::separator();
     QString path_png = img_dir_path + isbn13+".png";
     QString path_jpg = img_dir_path + isbn13+".jpg";
     if (QFileInfo::exists(path_png) && QFileInfo(path_png).isFile())
@@ -289,6 +300,7 @@ void AdminPanel::DownloadBookCover(QString isbn13)
 
     qDebug() << "Requesting download for" << isbn13;
     BookCoverDownloader *downloader = new BookCoverDownloader(isbn13);
+    Q_UNUSED(downloader)
 }
 
 void AdminPanel::on_pushButton_reloadBook_clicked()
@@ -515,9 +527,7 @@ void AdminPanel::on_pushButton_loan_clicked()
     ui->lineEdit_bookId->clear();
     if (loaner_id.length() == 0 || loan_book_id.length() == 0)
     {
-        QMessageBox::warning(this, tr("Oops!"),
-                                   tr("Fields must not be empty!"),
-                                       QMessageBox::Ok);
+        QMessageBox::warning(this, tr("Oops!"), tr("Fields must not be empty!"), QMessageBox::Ok);
         return;
     }
     int num_days = ui->comboBox_nDays->currentText().toInt();
@@ -630,7 +640,6 @@ void AdminPanel::on_pushButton_return_clicked()
 
     bool ret_lr_setData = false, ret_lr_submitAll = false;
     bool ret_br_setData = false, ret_br_submitAll = false;
-    bool book_returned_already = true;
     bool book_overdue = false;
     QDate due_date;
     QDate today = QDate::currentDate();
@@ -653,7 +662,6 @@ void AdminPanel::on_pushButton_return_clicked()
             QModelIndex hv_returned = model->index(i, LoanRecordTableViewColumns::HAVE_RETURNED);
             if (hv_returned.data().toInt() == Return::NO)
             {
-                book_returned_already = false;
                 QModelIndex index_due_date = model->index(i, LoanRecordTableViewColumns::DUE_DATE);
                 due_date = QDate::fromString(index_due_date.data().toString(), "yyyyMMdd");
                 if (today > due_date)
@@ -750,7 +758,6 @@ void AdminPanel::ReceiveBookId(QString book_id)
     ui->lineEdit_bookId->setText(book_id);
 }
 
-
 void AdminPanel::on_pushButton_editPersonId_clicked()
 {
     LineEditPopupDialog *d = new LineEditPopupDialog;
@@ -790,6 +797,7 @@ void AdminPanel::ShowWarnTickAtLeastOne()
 
 void AdminPanel::on_checkBox_filter_loanRecord_overdue_stateChanged(int arg1)
 {
+    Q_UNUSED(arg1)
     FilterTableView();
 }
 
@@ -853,6 +861,7 @@ void AdminPanel::keyPressEvent(QKeyEvent *event)
 
 void AdminPanel::on_checkBox_readOnly_stateChanged(int arg1)
 {
+    Q_UNUSED(arg1)
     if (ui->checkBox_readOnly->checkState() == Qt::Checked)
     {
         pCbD_ = new ComboBoxDelegate(ui->tableView_bookRecords);

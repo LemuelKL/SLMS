@@ -1,4 +1,6 @@
 #include "bookcoverdownloader.h"
+#include <constant.h>
+
 #include <QDir>
 #include <QCoreApplication>
 #include <QPixmap>
@@ -48,7 +50,7 @@ void BookCoverDownloader::BookCoverDownloaded(QNetworkReply* pReply)
 void BookCoverDownloader::SaveImageToDisk()
 {
     QString save_path = QCoreApplication::applicationDirPath() + QDir::separator();
-    save_path += "book_cover_pics";
+    save_path += BOOK_COVER_DIR_NAME;
     save_path += QDir::separator();
     save_path += isbn13_;
     save_path += ".jpg";

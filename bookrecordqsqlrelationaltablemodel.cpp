@@ -2,6 +2,7 @@
 #include <category.h>
 #include <status.h>
 #include <adminpanel.h>
+#include <constant.h>
 
 #include <QtDebug>
 #include <QTimer>
@@ -21,7 +22,7 @@ QVariant BookRecordQSqlRelationalTableModel::data(const QModelIndex & index, int
         QModelIndex index_isbn13 = index.sibling(index.row(), AdminPanel::ISBN13);
         QVariant isbn13 = QSqlRelationalTableModel::data(index_isbn13, Qt::DisplayRole);
 
-        QString img_dir_path = QCoreApplication::applicationDirPath() + QDir::separator() + "book_cover_pics" + QDir::separator();
+        QString img_dir_path = QCoreApplication::applicationDirPath() + QDir::separator() + BOOK_COVER_DIR_NAME + QDir::separator();
         QString arg;
         QString arg_png = img_dir_path + isbn13.toString()+".png";
         QString arg_jpg = img_dir_path + isbn13.toString()+".jpg";

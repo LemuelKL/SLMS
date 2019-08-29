@@ -155,6 +155,8 @@ private:
 
     bool only_search_in_current_view_;
     bool force_ignore_search_term;
+
+    void CreateBookCoverFolderIfNotExist();
 };
 
 #endif // ADMINPANEL_H

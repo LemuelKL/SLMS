@@ -51,6 +51,7 @@ HEADERS += \
     addbookrecorddialog.h \
     bookcoverdownloader.h \
     bookrecordqsqlrelationaltablemodel.h \
+    constant.h \
     editbookrecorddialog.h \
     isbn13validator.h \
     lineeditpopupdialoag.h \
