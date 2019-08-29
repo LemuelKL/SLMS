@@ -221,9 +221,10 @@ void AdminPanel::ReloadNumOverdue()
     QSqlDatabase conn = QSqlDatabase::database("SLMS");
     QSqlQuery qry = QSqlQuery(conn);
     QString str_today = QDate::currentDate().toString("yyyyMMdd");
-    if (qry.exec("SELECT record_id FROM loan_record WHERE due_date < " + str_today))
+    if (qry.exec("SELECT COUNT(*) FROM loan_record WHERE due_date < " + str_today))
     {
-        emit FetchNumOverdueSuccess(qry.record().count());
+        qry.first();
+        emit FetchNumOverdueSuccess(qry.value(0).toInt());
         return;
     }
     else
@@ -405,7 +406,6 @@ void AdminPanel::FilterTableView()
             ShowWarnTickAtLeastOne();
             return;
         }
-
         pBookRecordSearchProxyModel_->invalidate();
         pBookRecordSearchProxyModel_->SetFilterEnabled(true);
         pBookRecordSearchProxyModel_->ClearColsToFilter();
@@ -454,7 +454,6 @@ void AdminPanel::FilterTableView()
             ShowWarnTickAtLeastOne();
             return;
         }
-
         pLoanRecordSearchProxyModel_->invalidate();
         pLoanRecordSearchProxyModel_->SetFilterEnabled(true);
         pLoanRecordSearchProxyModel_->ClearColsToFilter();
