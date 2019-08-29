@@ -8,7 +8,7 @@
 BookCoverDownloader::BookCoverDownloader(QString isbn13, QObject *parent) :
     QObject(parent)
 {
-    QString image_url = "http://covers.openlibrary.org/b/isbn/" + isbn13 + "-M.jpg";
+    QString image_url = "http://covers.openlibrary.org/b/isbn/" + isbn13 + "-M.jpg?default=false";
     QUrl url = image_url;
     isbn13_ = isbn13;
     qDebug() << "Downloading from" << url.toString();
@@ -37,6 +37,16 @@ void BookCoverDownloader::BookCoverDownloaded(QNetworkReply* pReply)
         qDebug() << "Redirected to " + new_url.toString();
         QNetworkRequest new_request(new_url);
         m_WebCtrl.get(new_request);
+        return;
+    }
+    if(statusCode == 404)
+    {
+        qDebug() << "Image does not exist on Remote!";
+        return;
+    }
+    if(statusCode == 403)
+    {
+        qDebug() << "We are being rate-limited!";
         return;
     }
 
