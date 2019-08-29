@@ -46,11 +46,16 @@ void NormalDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, co
         }
         else
         {
-            int d = std::atoi(text.toStdString().c_str());
-            int input_check_digit = d % 10;
+            QString input = line_edit->text();
+            input = input.trimmed();
+            qDebug() << "Original input:" << input;
+            long long int d = input.toLongLong();
+            qDebug() << "input toInt:" << d;
+            long long int input_check_digit = d/1%10;
+            qDebug() << "input_check_digit" << input_check_digit;
 
-            int cal_check_digit = 10 - (d%10000000000000 + d%1000000000000 * 3 + d%100000000000 + d%10000000000 * 3 + d%1000000000 + d%100000000 * 3 + d%10000000 + d%1000000 * 3 + d%100000 + d%10000 * 3 + d%1000 + d%100 * 3) % 10;
-            if (input_check_digit == cal_check_digit)
+            int cal_check_digit = 10 - (d/1000000000000%10 + d/100000000000%10 * 3 + d/10000000000%10 + d/1000000000%10 * 3 + d/100000000%10 + d/10000000%10 * 3 + d/1000000%10 + d/100000%10 * 3 + d/10000%10 + d/1000%10 * 3 + d/100%10 + d/10%10 * 3) % 10;
+            qDebug() << "cal_check_digit" << cal_check_digit;if (input_check_digit == cal_check_digit)
             {
                 QStyledItemDelegate::setModelData(editor, model, index);
                 return;

@@ -45,6 +45,12 @@ public:
         HAVE_RETURNED
     };
 
+signals:
+    void FetchFailed(QString description);
+    void FetchNumBookSuccess(int num);
+    void FetchNumLoanSuccess(int num);
+    void FetchNumOverdueSuccess(int num);
+
 public slots:
     void ReceiveLogin(QString username);
 
@@ -66,9 +72,6 @@ private slots:
     void on_pushButton_addBook_clicked();
 
     void on_pushButton_reloadBook_clicked();
-
-    bool ReloadBooksToView();
-    bool ReloadLoansToView();
 
     void on_pushButton_deleteRecords_clicked();
 
@@ -92,8 +95,6 @@ private slots:
 
     void on_pushButton_reloadLoans_clicked();
 
-    void UpdateOverdueRecordsToLabel();
-
     void on_checkBox_filter_loanRecord_overdue_stateChanged(int arg1);
 
     void on_checkBox_updateViewAsIType_stateChanged(int arg1);
@@ -112,6 +113,13 @@ private slots:
 
     void on_pushButton_editBook_clicked();
 
+    bool RefreshBookTab();
+    bool RefreshLoanTab();
+
+    void HandleFailedFetch(QString desciprtion);
+    void UpdateNumBookToLabel(int num);
+    void UpdateNumLoanToLabel(int num);
+    void UpdateNumOverdueToLabel(int num);
 private:
     Ui::AdminPanel *ui;
 
@@ -134,10 +142,11 @@ private:
     void RemoveSelectedRows();
     void keyPressEvent(QKeyEvent *event);
 
-    void UpdateNBookLabel();
-    void UpdateNLoanLabel();
-
     bool NoCheckedCheckbox(QButtonGroup *button_group);
+
+    void ReloadNumBook();
+    void ReloadNumLoan();
+    void ReloadNumOverdue();
 };
 
 #endif // ADMINPANEL_H

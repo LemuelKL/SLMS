@@ -82,7 +82,7 @@
              </size>
             </property>
             <property name="currentIndex">
-             <number>0</number>
+             <number>1</number>
             </property>
             <widget class="QWidget" name="tab_bookRecords_3">
              <attribute name="title">
@@ -278,6 +278,12 @@
                   </item>
                   <item>
                    <widget class="QPushButton" name="pushButton_reloadLoans">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
                     <property name="text">
                      <string>Reload
 Loan Records</string>

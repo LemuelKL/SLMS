@@ -103,11 +103,9 @@ AdminPanel::AdminPanel(QWidget *parent) :
 
     qDate_format_ = ui->comboBox_qDateFormat->currentText();
     ui->label_today->setText("Today: " + QDate::currentDate().toString(qDate_format_));
-    //ReloadBooksToView();
-    UpdateNBookLabel();
+    RefreshBookTab();
     pBookRecordModel_->select();
-    //ReloadLoansToView();
-    UpdateNLoanLabel();
+    RefreshLoanTab();
     pLoanRecordModel_->select();
 
     ui->tabWidget->setCurrentIndex(0);
@@ -144,6 +142,13 @@ AdminPanel::AdminPanel(QWidget *parent) :
 
     pLoanRecordModel_->SetHightlightOverdueEnabled(false);
     pLoanRecordModel_->SetHightlightOnLoanEnabled(false);
+
+    connect(this, &AdminPanel::FetchFailed, this, &AdminPanel::HandleFailedFetch);
+    connect(this, &AdminPanel::FetchNumBookSuccess, this, &AdminPanel::UpdateNumBookToLabel);
+    connect(this, &AdminPanel::FetchNumLoanSuccess, this, &AdminPanel::UpdateNumLoanToLabel);
+    connect(this, &AdminPanel::FetchNumOverdueSuccess, this, &AdminPanel::UpdateNumOverdueToLabel);
+    ReloadNumLoan();
+    ReloadNumOverdue();
 }
 
 void AdminPanel::HandleInvalidIsbn()
@@ -156,70 +161,80 @@ AdminPanel::~AdminPanel()
     delete ui;
 }
 
-bool AdminPanel::ReloadBooksToView()
+void AdminPanel::ReceiveLogin(QString username)
 {
-    UpdateNBookLabel();
+    QString title = this->windowTitle() + " - " + username;
+    this->setWindowTitle(title);
+    RefreshBookTab();
+    this->show();
+}
+
+bool AdminPanel::RefreshBookTab()
+{
+    ReloadNumBook();
+
     bool ret_status = pBookRecordModel_->select();
     qDebug() << "Reloaded Books data to TableView: " << ret_status;
+    return ret_status;
+}
+bool AdminPanel::RefreshLoanTab()
+{
+    ReloadNumLoan();
+    ReloadNumOverdue();
 
-    while (pBookRecordModel_->canFetchMore())
-    {
-        pBookRecordModel_->fetchMore();
-    }
+    bool ret_status = pLoanRecordModel_->select();
+    qDebug() << "Reloaded Loans data to TableView: " << ret_status;
     return ret_status;
 }
 
-void AdminPanel::UpdateNBookLabel()
-{
-    QSqlDatabase conn = QSqlDatabase::database("SLMS");
-    QSqlQuery qry = QSqlQuery(conn);
-    if (qry.exec("SELECT COUNT(*) FROM book"))
-    {
-        qry.first();
-        qDebug() << "Book Record - No. Rows In DB:" << qry.value(0).toInt();
-        ui->label_numBookRecords_var->setText(QString::number(qry.value(0).toInt()));
-    }
-    else
-    {
-        QMessageBox::warning(this, tr("Warning!"), tr("Could not fetch number of book records from DB!"));
-        return;
-    }
-}
-
-void AdminPanel::UpdateNLoanLabel()
+void AdminPanel::ReloadNumLoan()
 {
     QSqlDatabase conn = QSqlDatabase::database("SLMS");
     QSqlQuery qry = QSqlQuery(conn);
     if (qry.exec("SELECT COUNT(*) FROM loan_record"))
     {
         qry.first();
-        qDebug() << "Loan Record - No. Rows In DB:" << qry.value(0).toInt();
-        ui->label_numLoanRecords_var->setText(QString::number(qry.value(0).toInt()));
+        emit FetchNumLoanSuccess(qry.value(0).toInt());
+        return;
     }
     else
     {
-        QMessageBox::warning(this, tr("Warning!"), tr("Could not fetch number of loan records from DB!"));
+        emit FetchFailed("Failed fetching number of loan records from DB!");
         return;
     }
 }
-
-bool AdminPanel::ReloadLoansToView()
+void AdminPanel::UpdateNumLoanToLabel(int num)
 {
-    UpdateNLoanLabel();
-    bool ret_status = pLoanRecordModel_->select();
-    qDebug() << "Reloaded Loans data to TableView: " << ret_status;
-
-    this->UpdateOverdueRecordsToLabel();
-    return ret_status;
+    qDebug() << "Updated Loan Label";
+    ui->label_numLoanRecords_var->setText(QString::number(num));
 }
 
-
-void AdminPanel::ReceiveLogin(QString username)
+void AdminPanel::ReloadNumOverdue()
 {
-    QString title = this->windowTitle() + " - " + username;
-    this->setWindowTitle(title);
-    ReloadBooksToView();
-    this->show();
+    QSqlDatabase conn = QSqlDatabase::database("SLMS");
+    QSqlQuery qry = QSqlQuery(conn);
+    QString str_today = QDate::currentDate().toString("yyyyMMdd");
+    if (qry.exec("SELECT record_id FROM loan_record WHERE return_date < " + str_today))
+    {
+        emit FetchNumOverdueSuccess(qry.record().count());
+        return;
+    }
+    else
+    {
+        emit FetchFailed("Failed fetching number of overdue records from DB!");
+        return;
+    }
+}
+void AdminPanel::UpdateNumOverdueToLabel(int num)
+{
+    qDebug() << "Updated Overdue Label";
+    ui->label_numOverdueLoanRecords_var->setText(QString::number(num));
+}
+
+void AdminPanel::HandleFailedFetch(QString desciprtion)
+{
+    qDebug() << "FAILED FETCH:" << desciprtion;
+    QMessageBox::warning(this, "Oops!", desciprtion);
 }
 
 void AdminPanel::ReceiveAddBookRequest(QString isbn13, QString title, QString author, int category, int status, int amount)
@@ -249,12 +264,13 @@ void AdminPanel::on_pushButton_addBook_clicked()
     AddBookRecordDialog *dialog = new AddBookRecordDialog();
     connect(dialog, &AddBookRecordDialog::Submitted, this, &AdminPanel::ReceiveAddBookRequest);
     dialog->exec();
+    ReloadNumBook();
     return;
 }
 
 void AdminPanel::on_pushButton_reloadBook_clicked()
 {
-    if (ReloadBooksToView())
+    if (RefreshBookTab())
     {
         QMessageBox::information(this, tr("Done!"), tr("Successfully reloaded book data from DB to view!"), QMessageBox::Ok);
     }
@@ -266,7 +282,7 @@ void AdminPanel::on_pushButton_reloadBook_clicked()
 
 void AdminPanel::on_pushButton_reloadLoans_clicked()
 {
-    if (ReloadLoansToView())
+    if (RefreshLoanTab())
     {
         QMessageBox::information(this, tr("Done!"), tr("Successfully reloaded loan data from DB to view!"), QMessageBox::Ok);
     }
@@ -275,7 +291,6 @@ void AdminPanel::on_pushButton_reloadLoans_clicked()
         QMessageBox::warning(this, tr("Oops!"), tr("Something went wrong!"), QMessageBox::Ok);
     }
 }
-
 
 void AdminPanel::HandleDataChanged()
 {
@@ -304,7 +319,7 @@ void AdminPanel::HandleDataIsEmpty(QModelIndex last_empty_index)
     desc_text += ui->tableView_bookRecords->model()->headerData(last_empty_index.column(), Qt::Horizontal).toString();
     desc_text += " field is empty!";
     QMessageBox::warning(this, tr("Oops!"), tr(desc_text.toStdString().c_str()), QMessageBox::Ok);
-    ReloadBooksToView();
+    RefreshBookTab();
 }
 
 void AdminPanel::on_pushButton_deleteRecords_clicked()
@@ -315,6 +330,7 @@ void AdminPanel::on_pushButton_deleteRecords_clicked()
     {
         RemoveSelectedRows();
     }
+    ReloadNumBook();
 }
 
 void AdminPanel::RemoveSelectedRows()
@@ -334,7 +350,7 @@ void AdminPanel::RemoveSelectedRows()
         }
         pBookRecordModel_->submitAll();
         pBookRecordModel_->setEditStrategy(old_strat);
-        ReloadBooksToView();
+        RefreshBookTab();
     }
 }
 
@@ -513,8 +529,8 @@ void AdminPanel::on_pushButton_loan_clicked()
                     QSqlError err = qry.lastError();
                     QMessageBox::warning(this, tr("Failed to execute query!"), tr(err.text().toUtf8().data()), QMessageBox::Ok);
                 }
-                ReloadBooksToView();
-                ReloadLoansToView();
+                RefreshBookTab();
+                RefreshLoanTab();
             }
         }
         else
@@ -657,8 +673,8 @@ void AdminPanel::on_pushButton_return_clicked()
         QMessageBox::warning(this, tr("Oops!"), tr("There were some error when interacting with the DB, please manually review the record!"
                                                    "\nret_lr_setData:%1 ret_lr_submitAll:%2 ret_br_setData:%3 ret_br_submitAll:%4").arg(ret_lr_setData).arg(ret_lr_submitAll).arg(ret_br_setData).arg(ret_br_submitAll), QMessageBox::Ok);
     }
-    ReloadBooksToView();
-    ReloadLoansToView();
+    RefreshBookTab();
+    RefreshLoanTab();
 }
 
 void AdminPanel::on_pushButton_clicked()
@@ -688,8 +704,8 @@ void AdminPanel::on_pushButton_clicked()
         err_text_desc += query.lastError().text();
         QMessageBox::warning(this, tr("Oops!"), tr(err_text_desc.toStdString().c_str()), QMessageBox::Ok);
     }
-    ReloadBooksToView();
-    ReloadLoansToView();
+    RefreshBookTab();
+    RefreshLoanTab();
 }
 
 void AdminPanel::ReceivePersonId(QString person_id)
@@ -742,55 +758,6 @@ void AdminPanel::ShowWarnTickAtLeastOne()
     QMessageBox::warning(this, tr("Oops!"), tr("Please check at least one checkbox!"), QMessageBox::Ok);
 }
 
-void AdminPanel::UpdateOverdueRecordsToLabel()
-{
-    QSqlDatabase conn = QSqlDatabase::database("SLMS");
-    QSqlTableModel *model = new QSqlTableModel(this, conn);
-    model->setTable("loan_record");
-    model->select();
-
-    int num_records = -1;
-    QSqlDatabase conn2 = QSqlDatabase::database("SLMS");
-    QSqlQuery qry = QSqlQuery(conn2);
-    if (qry.exec("SELECT COUNT(*) FROM loan_record"))
-    {
-        qry.first();
-        num_records = qry.value(0).toInt();
-        while (pLoanRecordModel_->canFetchMore())
-               pLoanRecordModel_->fetchMore();
-    }
-    else
-    {
-        QMessageBox::warning(this, tr("Warning!"), tr("Could not fetch number of loan records from DB!"));
-        return;
-    }
-    ui->label_numLoanRecords_var->setText(QString::number(num_records));
-    if (num_records == 0)
-    {
-        ui->label_numOverdueLoanRecords_var->setText("0");
-        return;
-    }
-
-    int overdue_count = 0;
-    QDate today = QDate::currentDate();
-
-    for (int i = 0; i < num_records; i++)
-    {
-        if (model->canFetchMore())
-        {
-            model->fetchMore();
-        }
-        QModelIndex index_return_date = model->index(i, 4);
-        QModelIndex hv_returned = model->index(i, 5);
-        QDate return_date = QDate::fromString(index_return_date.data().toString(), "yyyyMMdd");
-        if (return_date < today && hv_returned.data().toInt() == Return::NO)
-        {
-            overdue_count++;
-        }
-    }
-    ui->label_numOverdueLoanRecords_var->setText(QString::number(overdue_count));
-}
-
 void AdminPanel::on_checkBox_filter_loanRecord_overdue_stateChanged(int arg1)
 {
     FilterTableView();
@@ -817,13 +784,13 @@ void AdminPanel::on_checkBox_filter_loanRecord_onLoan_stateChanged(int arg1)
 void AdminPanel::on_checkBox_highlight_overdue_stateChanged(int arg1)
 {
     pLoanRecordModel_->SetHightlightOverdueEnabled(arg1 == Qt::Checked);
-    ReloadLoansToView();
+    RefreshLoanTab();
 }
 
 void AdminPanel::on_checkBox_highlight_onLoan_stateChanged(int arg1)
 {
     pLoanRecordModel_->SetHightlightOnLoanEnabled(arg1 == Qt::Checked);
-    ReloadLoansToView();
+    RefreshLoanTab();
 }
 
 void AdminPanel::on_comboBox_qDateFormat_currentTextChanged(const QString &arg1)
@@ -831,7 +798,7 @@ void AdminPanel::on_comboBox_qDateFormat_currentTextChanged(const QString &arg1)
     qDate_format_ = arg1.trimmed();
     ui->label_today->setText("Today: " + QDate::currentDate().toString(arg1));
     SyncQDateFormatToLRQSRTM();
-    ReloadLoansToView();
+    RefreshLoanTab();
 }
 
 void AdminPanel::SyncQDateFormatToLRQSRTM()
@@ -924,4 +891,27 @@ void AdminPanel::on_pushButton_editBook_clicked()
     d->PopulateWidgets();
     connect(d, &EditBookRecordDialog::Submitted, this, &AdminPanel::ReceiveEditBookRequest);
     d->exec();
+}
+
+void AdminPanel::ReloadNumBook()
+{
+    QSqlDatabase conn = QSqlDatabase::database("SLMS");
+    QSqlQuery qry = QSqlQuery(conn);
+    if (qry.exec("SELECT COUNT(*) FROM book"))
+    {
+        qry.first();
+        emit FetchNumBookSuccess(qry.value(0).toInt());
+        return;
+    }
+    else
+    {
+        emit FetchFailed("Failed fetching number of book records from DB!");
+        return;
+    }
+}
+
+void AdminPanel::UpdateNumBookToLabel(int num)
+{
+    qDebug() << "Updated Book Label";
+    ui->label_numBookRecords_var->setText(QString::number(num));
 }

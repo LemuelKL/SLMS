@@ -299,6 +299,11 @@ public:
 
         pushButton_reloadLoans = new QPushButton(tab_loanRecords_3);
         pushButton_reloadLoans->setObjectName(QString::fromUtf8("pushButton_reloadLoans"));
+        QSizePolicy sizePolicy3(QSizePolicy::Minimum, QSizePolicy::Expanding);
+        sizePolicy3.setHorizontalStretch(0);
+        sizePolicy3.setVerticalStretch(0);
+        sizePolicy3.setHeightForWidth(pushButton_reloadLoans->sizePolicy().hasHeightForWidth());
+        pushButton_reloadLoans->setSizePolicy(sizePolicy3);
         QIcon icon1;
         icon1.addFile(QString::fromUtf8(":/remix_icons/release/resources/icons/refresh-line.svg"), QSize(), QIcon::Normal, QIcon::Off);
         pushButton_reloadLoans->setIcon(icon1);
@@ -344,11 +349,11 @@ public:
         horizontalLayout_3->setObjectName(QString::fromUtf8("horizontalLayout_3"));
         label_today = new QLabel(frame_actions);
         label_today->setObjectName(QString::fromUtf8("label_today"));
-        QSizePolicy sizePolicy3(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
-        sizePolicy3.setHorizontalStretch(0);
-        sizePolicy3.setVerticalStretch(0);
-        sizePolicy3.setHeightForWidth(label_today->sizePolicy().hasHeightForWidth());
-        label_today->setSizePolicy(sizePolicy3);
+        QSizePolicy sizePolicy4(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+        sizePolicy4.setHorizontalStretch(0);
+        sizePolicy4.setVerticalStretch(0);
+        sizePolicy4.setHeightForWidth(label_today->sizePolicy().hasHeightForWidth());
+        label_today->setSizePolicy(sizePolicy4);
         label_today->setMinimumSize(QSize(150, 20));
 
         horizontalLayout_3->addWidget(label_today);
@@ -389,11 +394,8 @@ public:
         horizontalLayout_22->setObjectName(QString::fromUtf8("horizontalLayout_22"));
         pushButton_addBook = new QPushButton(groupBox_recordManipulation);
         pushButton_addBook->setObjectName(QString::fromUtf8("pushButton_addBook"));
-        QSizePolicy sizePolicy4(QSizePolicy::Minimum, QSizePolicy::Expanding);
-        sizePolicy4.setHorizontalStretch(0);
-        sizePolicy4.setVerticalStretch(0);
-        sizePolicy4.setHeightForWidth(pushButton_addBook->sizePolicy().hasHeightForWidth());
-        pushButton_addBook->setSizePolicy(sizePolicy4);
+        sizePolicy3.setHeightForWidth(pushButton_addBook->sizePolicy().hasHeightForWidth());
+        pushButton_addBook->setSizePolicy(sizePolicy3);
         QIcon icon2;
         icon2.addFile(QString::fromUtf8(":/remix_icons/release/resources/icons/file-add-line.svg"), QSize(), QIcon::Normal, QIcon::Off);
         pushButton_addBook->setIcon(icon2);
@@ -402,8 +404,8 @@ public:
 
         pushButton_deleteRecords = new QPushButton(groupBox_recordManipulation);
         pushButton_deleteRecords->setObjectName(QString::fromUtf8("pushButton_deleteRecords"));
-        sizePolicy4.setHeightForWidth(pushButton_deleteRecords->sizePolicy().hasHeightForWidth());
-        pushButton_deleteRecords->setSizePolicy(sizePolicy4);
+        sizePolicy3.setHeightForWidth(pushButton_deleteRecords->sizePolicy().hasHeightForWidth());
+        pushButton_deleteRecords->setSizePolicy(sizePolicy3);
         QIcon icon3;
         icon3.addFile(QString::fromUtf8(":/remix_icons/release/resources/icons/delete-bin-2-line.svg"), QSize(), QIcon::Normal, QIcon::Off);
         pushButton_deleteRecords->setIcon(icon3);
@@ -417,8 +419,8 @@ public:
         horizontalLayout_10->setObjectName(QString::fromUtf8("horizontalLayout_10"));
         pushButton_editBook = new QPushButton(groupBox_recordManipulation);
         pushButton_editBook->setObjectName(QString::fromUtf8("pushButton_editBook"));
-        sizePolicy4.setHeightForWidth(pushButton_editBook->sizePolicy().hasHeightForWidth());
-        pushButton_editBook->setSizePolicy(sizePolicy4);
+        sizePolicy3.setHeightForWidth(pushButton_editBook->sizePolicy().hasHeightForWidth());
+        pushButton_editBook->setSizePolicy(sizePolicy3);
         QIcon icon4;
         icon4.addFile(QString::fromUtf8(":/remix_icons/release/resources/icons/file-edit-line.svg"), QSize(), QIcon::Normal, QIcon::Off);
         pushButton_editBook->setIcon(icon4);
@@ -427,8 +429,8 @@ public:
 
         pushButton_reloadBook = new QPushButton(groupBox_recordManipulation);
         pushButton_reloadBook->setObjectName(QString::fromUtf8("pushButton_reloadBook"));
-        sizePolicy4.setHeightForWidth(pushButton_reloadBook->sizePolicy().hasHeightForWidth());
-        pushButton_reloadBook->setSizePolicy(sizePolicy4);
+        sizePolicy3.setHeightForWidth(pushButton_reloadBook->sizePolicy().hasHeightForWidth());
+        pushButton_reloadBook->setSizePolicy(sizePolicy3);
         pushButton_reloadBook->setMinimumSize(QSize(0, 50));
         pushButton_reloadBook->setIcon(icon1);
 
@@ -541,15 +543,15 @@ public:
         horizontalLayout_26->setObjectName(QString::fromUtf8("horizontalLayout_26"));
         pushButton_loan = new QPushButton(groupBox_loanAndReturn);
         pushButton_loan->setObjectName(QString::fromUtf8("pushButton_loan"));
-        sizePolicy4.setHeightForWidth(pushButton_loan->sizePolicy().hasHeightForWidth());
-        pushButton_loan->setSizePolicy(sizePolicy4);
+        sizePolicy3.setHeightForWidth(pushButton_loan->sizePolicy().hasHeightForWidth());
+        pushButton_loan->setSizePolicy(sizePolicy3);
 
         horizontalLayout_26->addWidget(pushButton_loan);
 
         pushButton_return = new QPushButton(groupBox_loanAndReturn);
         pushButton_return->setObjectName(QString::fromUtf8("pushButton_return"));
-        sizePolicy4.setHeightForWidth(pushButton_return->sizePolicy().hasHeightForWidth());
-        pushButton_return->setSizePolicy(sizePolicy4);
+        sizePolicy3.setHeightForWidth(pushButton_return->sizePolicy().hasHeightForWidth());
+        pushButton_return->setSizePolicy(sizePolicy3);
 
         horizontalLayout_26->addWidget(pushButton_return);
 
@@ -745,8 +747,8 @@ public:
 
         pushButton = new QPushButton(groupBox_sqlMassAction);
         pushButton->setObjectName(QString::fromUtf8("pushButton"));
-        sizePolicy3.setHeightForWidth(pushButton->sizePolicy().hasHeightForWidth());
-        pushButton->setSizePolicy(sizePolicy3);
+        sizePolicy4.setHeightForWidth(pushButton->sizePolicy().hasHeightForWidth());
+        pushButton->setSizePolicy(sizePolicy4);
         pushButton->setMinimumSize(QSize(0, 70));
         QIcon icon6;
         icon6.addFile(QString::fromUtf8(":/remix_icons/release/resources/icons/send-plane-2-line.svg"), QSize(), QIcon::Normal, QIcon::Off);
@@ -778,7 +780,7 @@ public:
 
         retranslateUi(AdminPanel);
 
-        tabWidget->setCurrentIndex(0);
+        tabWidget->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(AdminPanel);
