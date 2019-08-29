@@ -19,7 +19,8 @@ QWidget * NormalDelegate::createEditor(QWidget *parent, const QStyleOptionViewIt
     QLineEdit *line_edit = new QLineEdit(parent);
     (void) option;
     (void) index;
-    line_edit->setMaxLength(13);
+    if (index.column() == 1)
+        line_edit->setMaxLength(13);
     return line_edit;
 }
 
