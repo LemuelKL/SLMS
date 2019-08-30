@@ -515,7 +515,8 @@ void AdminPanel::on_pushButton_updateView_clicked()
 
 void AdminPanel::on_lineEdit_textChanged(const QString &arg1)
 {
-    if (arg1 == Qt::Checked)
+    Q_UNUSED(arg1);
+    if (ui->checkBox_updateViewAsIType->checkState() == Qt::Checked)
         FilterTableView();
 }
 
