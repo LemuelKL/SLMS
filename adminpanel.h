@@ -125,6 +125,8 @@ private slots:
 
     void DownloadBookCover(QString isbn13);
 
+    void HandleCurrentViewVerticalScrollBarValueChanged();
+
 private:
     Ui::AdminPanel *ui;
 

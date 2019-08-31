@@ -158,6 +158,10 @@ AdminPanel::AdminPanel(QWidget *parent) :
     on_checkBox_searchInViewOnly_stateChanged(Qt::Checked);
 
     CreateBookCoverFolderIfNotExist();
+
+    connect(ui->tableView_bookRecords->verticalScrollBar(), &QScrollBar::valueChanged, this, &AdminPanel::HandleCurrentViewVerticalScrollBarValueChanged);
+    connect(ui->tableView_loanRecords->verticalScrollBar(), &QScrollBar::valueChanged, this, &AdminPanel::HandleCurrentViewVerticalScrollBarValueChanged);
+
 }
 
 void AdminPanel::CreateBookCoverFolderIfNotExist()
@@ -975,5 +979,21 @@ void AdminPanel::on_checkBox_searchInViewOnly_stateChanged(int arg1)
             ui->pushButton_updateView->setText("Search\n[ " + ui->label_numBookRecords_var->text() + " ]");
         if (ui->tabWidget->currentIndex() == 1)
             ui->pushButton_updateView->setText("Search\n[ " + ui->label_numLoanRecords_var->text() + " ]");
+    }
+}
+
+void AdminPanel::HandleCurrentViewVerticalScrollBarValueChanged()
+{
+    int currrent_tab_index = ui->tabWidget->currentIndex();
+    if (ui->checkBox_searchInViewOnly->checkState() == Qt::Checked)
+    {
+        if (currrent_tab_index == 0)
+        {
+            ui->pushButton_updateView->setText("Search\n[ " + QString::number(pBookRecordModel_->rowCount()) + " ]");
+        }
+        if (currrent_tab_index == 1)
+        {
+            ui->pushButton_updateView->setText("Search\n[ " + QString::number(pLoanRecordModel_->rowCount()) + " ]");
+        }
     }
 }
