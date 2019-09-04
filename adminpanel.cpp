@@ -76,12 +76,12 @@ AdminPanel::AdminPanel(QWidget *parent) :
     pBookRecordSearchProxyModel_->setHeaderData(BookRecordTableViewColumns::CATEGORY, Qt::Horizontal, tr("Category"));
     pBookRecordSearchProxyModel_->setHeaderData(BookRecordTableViewColumns::STATUS, Qt::Horizontal, tr("Status"));
 
-    pBookRecordSearchProxyModel_->setHeaderData(BookRecordTableViewColumns::ID, Qt::Horizontal, QVariant::fromValue(QIcon(":/remix_icons/release/resources/icons/book-line.svg")), Qt::DecorationRole);
-    pBookRecordSearchProxyModel_->setHeaderData(BookRecordTableViewColumns::ISBN13, Qt::Horizontal, QVariant::fromValue(QIcon(":/remix_icons/release/resources/icons/bookmark-2-line.svg")), Qt::DecorationRole);
-    pBookRecordSearchProxyModel_->setHeaderData(BookRecordTableViewColumns::TITLE, Qt::Horizontal, QVariant::fromValue(QIcon(":/remix_icons/release/resources/icons/book-2-line.svg")), Qt::DecorationRole);
-    pBookRecordSearchProxyModel_->setHeaderData(BookRecordTableViewColumns::AUTHOR, Qt::Horizontal, QVariant::fromValue(QIcon(":/remix_icons/release/resources/icons/ball-pen-line.svg")), Qt::DecorationRole);
-    pBookRecordSearchProxyModel_->setHeaderData(BookRecordTableViewColumns::CATEGORY, Qt::Horizontal, QVariant::fromValue(QIcon(":/remix_icons/release/resources/icons/hashtag.svg")), Qt::DecorationRole);
-    pBookRecordSearchProxyModel_->setHeaderData(BookRecordTableViewColumns::STATUS, Qt::Horizontal, QVariant::fromValue(QIcon(":/remix_icons/release/resources/icons/computer-line.svg")), Qt::DecorationRole);
+    pBookRecordSearchProxyModel_->setHeaderData(BookRecordTableViewColumns::ID, Qt::Horizontal, QVariant::fromValue(QIcon(":/remix_icons/resources/icons/book-line.svg")), Qt::DecorationRole);
+    pBookRecordSearchProxyModel_->setHeaderData(BookRecordTableViewColumns::ISBN13, Qt::Horizontal, QVariant::fromValue(QIcon(":/remix_icons/resources/icons/bookmark-2-line.svg")), Qt::DecorationRole);
+    pBookRecordSearchProxyModel_->setHeaderData(BookRecordTableViewColumns::TITLE, Qt::Horizontal, QVariant::fromValue(QIcon(":/remix_icons/resources/icons/book-2-line.svg")), Qt::DecorationRole);
+    pBookRecordSearchProxyModel_->setHeaderData(BookRecordTableViewColumns::AUTHOR, Qt::Horizontal, QVariant::fromValue(QIcon(":/remix_icons/resources/icons/ball-pen-line.svg")), Qt::DecorationRole);
+    pBookRecordSearchProxyModel_->setHeaderData(BookRecordTableViewColumns::CATEGORY, Qt::Horizontal, QVariant::fromValue(QIcon(":/remix_icons/resources/icons/hashtag.svg")), Qt::DecorationRole);
+    pBookRecordSearchProxyModel_->setHeaderData(BookRecordTableViewColumns::STATUS, Qt::Horizontal, QVariant::fromValue(QIcon(":/remix_icons/resources/icons/computer-line.svg")), Qt::DecorationRole);
 
     ui->tableView_loanRecords->horizontalHeader()->setSectionResizeMode(LoanRecordTableViewColumns::RECORD_ID, QHeaderView::ResizeToContents);
     ui->tableView_loanRecords->horizontalHeader()->setSectionResizeMode(LoanRecordTableViewColumns::BOOK_ID, QHeaderView::ResizeToContents);
@@ -97,12 +97,12 @@ AdminPanel::AdminPanel(QWidget *parent) :
     pLoanRecordSearchProxyModel_->setHeaderData(LoanRecordTableViewColumns::DUE_DATE, Qt::Horizontal, tr("Due Date"));
     pLoanRecordSearchProxyModel_->setHeaderData(LoanRecordTableViewColumns::HAVE_RETURNED, Qt::Horizontal, tr("Returned?"));
 
-    pLoanRecordSearchProxyModel_->setHeaderData(LoanRecordTableViewColumns::RECORD_ID, Qt::Horizontal, QVariant::fromValue(QIcon(":/remix_icons/release/resources/icons/file-text-line.svg")), Qt::DecorationRole);
-    pLoanRecordSearchProxyModel_->setHeaderData(LoanRecordTableViewColumns::BOOK_ID, Qt::Horizontal, QVariant::fromValue(QIcon(":/remix_icons/release/resources/icons/book-line.svg")), Qt::DecorationRole);
-    pLoanRecordSearchProxyModel_->setHeaderData(LoanRecordTableViewColumns::PERSON_ID, Qt::Horizontal, QVariant::fromValue(QIcon(":/remix_icons/release/resources/icons/user-received-line.svg")), Qt::DecorationRole);
-    pLoanRecordSearchProxyModel_->setHeaderData(LoanRecordTableViewColumns::LOAN_DATE, Qt::Horizontal, QVariant::fromValue(QIcon(":/remix_icons/release/resources/icons/calendar-line.svg")), Qt::DecorationRole);
-    pLoanRecordSearchProxyModel_->setHeaderData(LoanRecordTableViewColumns::DUE_DATE, Qt::Horizontal, QVariant::fromValue(QIcon(":/remix_icons/release/resources/icons/calendar-event-line.svg")), Qt::DecorationRole);
-    pLoanRecordSearchProxyModel_->setHeaderData(LoanRecordTableViewColumns::HAVE_RETURNED, Qt::Horizontal, QVariant::fromValue(QIcon(":/remix_icons/release/resources/icons/database-2-line.svg")), Qt::DecorationRole);
+    pLoanRecordSearchProxyModel_->setHeaderData(LoanRecordTableViewColumns::RECORD_ID, Qt::Horizontal, QVariant::fromValue(QIcon(":/remix_icons/resources/icons/file-text-line.svg")), Qt::DecorationRole);
+    pLoanRecordSearchProxyModel_->setHeaderData(LoanRecordTableViewColumns::BOOK_ID, Qt::Horizontal, QVariant::fromValue(QIcon(":/remix_icons/resources/icons/book-line.svg")), Qt::DecorationRole);
+    pLoanRecordSearchProxyModel_->setHeaderData(LoanRecordTableViewColumns::PERSON_ID, Qt::Horizontal, QVariant::fromValue(QIcon(":/remix_icons/resources/icons/user-received-line.svg")), Qt::DecorationRole);
+    pLoanRecordSearchProxyModel_->setHeaderData(LoanRecordTableViewColumns::LOAN_DATE, Qt::Horizontal, QVariant::fromValue(QIcon(":/remix_icons/resources/icons/calendar-line.svg")), Qt::DecorationRole);
+    pLoanRecordSearchProxyModel_->setHeaderData(LoanRecordTableViewColumns::DUE_DATE, Qt::Horizontal, QVariant::fromValue(QIcon(":/remix_icons/resources/icons/calendar-event-line.svg")), Qt::DecorationRole);
+    pLoanRecordSearchProxyModel_->setHeaderData(LoanRecordTableViewColumns::HAVE_RETURNED, Qt::Horizontal, QVariant::fromValue(QIcon(":/remix_icons/resources/icons/database-2-line.svg")), Qt::DecorationRole);
 
     qDate_format_ = ui->comboBox_qDateFormat->currentText();
     ui->label_today->setText("Today: " + QDate::currentDate().toString(qDate_format_));

@@ -21,7 +21,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="resource.qrc">
-    <normaloff>:/remix_icons/release/resources/icons/login-circle-line.svg</normaloff>:/remix_icons/release/resources/icons/login-circle-line.svg</iconset>
+    <normaloff>:/remix_icons/resources/icons/login-circle-line.svg</normaloff>:/remix_icons/resources/icons/login-circle-line.svg</iconset>
   </property>
   <property name="windowOpacity">
    <double>1.000000000000000</double>
@@ -102,7 +102,7 @@
     </property>
     <property name="icon">
      <iconset resource="resource.qrc">
-      <normaloff>:/remix_icons/release/resources/icons/key-2-line.svg</normaloff>:/remix_icons/release/resources/icons/key-2-line.svg</iconset>
+      <normaloff>:/remix_icons/resources/icons/key-2-line.svg</normaloff>:/remix_icons/resources/icons/key-2-line.svg</iconset>
     </property>
    </widget>
    <widget class="QLineEdit" name="lineEdit_username">

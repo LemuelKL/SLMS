@@ -21,15 +21,15 @@ QVariant LoanRecordQSqlRelationalTableModel::data(const QModelIndex & index, int
             QFileIconProvider icon_provider;
             if (Return::StringToEnum(value.toString()) == Return::YES)
             {
-                return QPixmap(":/remix_icons/release/resources/icons/check-line.svg");
+                return QPixmap(":/remix_icons/resources/icons/check-line.svg");
             }
             if (Return::StringToEnum(value.toString()) == Return::NO)
             {
-                return QPixmap(":/remix_icons/release/resources/icons/close-line.svg");
+                return QPixmap(":/remix_icons/resources/icons/close-line.svg");
             }
             if (Return::StringToEnum(value.toString()) == Return::UNKNOWN)
             {
-                return QPixmap(":/remix_icons/release/resources/icons/question-line.svg");
+                return QPixmap(":/remix_icons/resources/icons/question-line.svg");
             }
         }
         if (highlight_overdue_enabled_ && role == Qt::BackgroundRole)

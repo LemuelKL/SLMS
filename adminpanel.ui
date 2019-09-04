@@ -27,7 +27,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="resource.qrc">
-    <normaloff>:/remix_icons/release/resources/icons/admin-line.svg</normaloff>:/remix_icons/release/resources/icons/admin-line.svg</iconset>
+    <normaloff>:/remix_icons/resources/icons/admin-line.svg</normaloff>:/remix_icons/resources/icons/admin-line.svg</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_4">
@@ -387,7 +387,7 @@ Loan Records</string>
                     </property>
                     <property name="icon">
                      <iconset resource="resource.qrc">
-                      <normaloff>:/remix_icons/release/resources/icons/refresh-line.svg</normaloff>:/remix_icons/release/resources/icons/refresh-line.svg</iconset>
+                      <normaloff>:/remix_icons/resources/icons/refresh-line.svg</normaloff>:/remix_icons/resources/icons/refresh-line.svg</iconset>
                     </property>
                    </widget>
                   </item>
@@ -583,7 +583,7 @@ New Books</string>
                      </property>
                      <property name="icon">
                       <iconset resource="resource.qrc">
-                       <normaloff>:/remix_icons/release/resources/icons/file-add-line.svg</normaloff>:/remix_icons/release/resources/icons/file-add-line.svg</iconset>
+                       <normaloff>:/remix_icons/resources/icons/file-add-line.svg</normaloff>:/remix_icons/resources/icons/file-add-line.svg</iconset>
                      </property>
                     </widget>
                    </item>
@@ -602,7 +602,7 @@ Books</string>
                      </property>
                      <property name="icon">
                       <iconset resource="resource.qrc">
-                       <normaloff>:/remix_icons/release/resources/icons/delete-bin-2-line.svg</normaloff>:/remix_icons/release/resources/icons/delete-bin-2-line.svg</iconset>
+                       <normaloff>:/remix_icons/resources/icons/delete-bin-2-line.svg</normaloff>:/remix_icons/resources/icons/delete-bin-2-line.svg</iconset>
                      </property>
                     </widget>
                    </item>
@@ -625,7 +625,7 @@ Books</string>
                      </property>
                      <property name="icon">
                       <iconset resource="resource.qrc">
-                       <normaloff>:/remix_icons/release/resources/icons/file-edit-line.svg</normaloff>:/remix_icons/release/resources/icons/file-edit-line.svg</iconset>
+                       <normaloff>:/remix_icons/resources/icons/file-edit-line.svg</normaloff>:/remix_icons/resources/icons/file-edit-line.svg</iconset>
                      </property>
                     </widget>
                    </item>
@@ -650,7 +650,7 @@ From DB</string>
                      </property>
                      <property name="icon">
                       <iconset resource="resource.qrc">
-                       <normaloff>:/remix_icons/release/resources/icons/refresh-line.svg</normaloff>:/remix_icons/release/resources/icons/refresh-line.svg</iconset>
+                       <normaloff>:/remix_icons/resources/icons/refresh-line.svg</normaloff>:/remix_icons/resources/icons/refresh-line.svg</iconset>
                      </property>
                     </widget>
                    </item>
@@ -1086,7 +1086,7 @@ From DB</string>
                      </property>
                      <property name="icon">
                       <iconset resource="resource.qrc">
-                       <normaloff>:/remix_icons/release/resources/icons/search-eye-line.svg</normaloff>:/remix_icons/release/resources/icons/search-eye-line.svg</iconset>
+                       <normaloff>:/remix_icons/resources/icons/search-eye-line.svg</normaloff>:/remix_icons/resources/icons/search-eye-line.svg</iconset>
                      </property>
                     </widget>
                    </item>
@@ -1197,7 +1197,7 @@ From DB</string>
                </property>
                <property name="icon">
                 <iconset resource="resource.qrc">
-                 <normaloff>:/remix_icons/release/resources/icons/send-plane-2-line.svg</normaloff>:/remix_icons/release/resources/icons/send-plane-2-line.svg</iconset>
+                 <normaloff>:/remix_icons/resources/icons/send-plane-2-line.svg</normaloff>:/remix_icons/resources/icons/send-plane-2-line.svg</iconset>
                </property>
               </widget>
              </item>

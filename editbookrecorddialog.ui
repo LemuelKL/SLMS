@@ -21,7 +21,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="resource.qrc">
-    <normaloff>:/remix_icons/release/resources/icons/file-edit-line.svg</normaloff>:/remix_icons/release/resources/icons/file-edit-line.svg</iconset>
+    <normaloff>:/remix_icons/resources/icons/file-edit-line.svg</normaloff>:/remix_icons/resources/icons/file-edit-line.svg</iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
@@ -189,7 +189,7 @@
          </property>
          <property name="icon">
           <iconset resource="resource.qrc">
-           <normaloff>:/remix_icons/release/resources/icons/file-edit-line.svg</normaloff>:/remix_icons/release/resources/icons/file-edit-line.svg</iconset>
+           <normaloff>:/remix_icons/resources/icons/file-edit-line.svg</normaloff>:/remix_icons/resources/icons/file-edit-line.svg</iconset>
          </property>
         </widget>
        </item>
