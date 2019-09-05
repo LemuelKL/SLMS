@@ -20,7 +20,7 @@
    <string>Dialog</string>
   </property>
   <property name="windowIcon">
-   <iconset>
+   <iconset resource="resources.qrc">
     <normaloff>:/remix_icons/resources/icons/file-add-line.svg</normaloff>:/remix_icons/resources/icons/file-add-line.svg</iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout">

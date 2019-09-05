@@ -60,7 +60,7 @@ public:
         sizePolicy.setHeightForWidth(AddBookRecordDialog->sizePolicy().hasHeightForWidth());
         AddBookRecordDialog->setSizePolicy(sizePolicy);
         QIcon icon;
-        icon.addFile(QString::fromUtf8(":/remix_icons/release/resources/icons/file-add-line.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        icon.addFile(QString::fromUtf8(":/remix_icons/resources/icons/file-add-line.svg"), QSize(), QIcon::Normal, QIcon::Off);
         AddBookRecordDialog->setWindowIcon(icon);
         gridLayout = new QGridLayout(AddBookRecordDialog);
         gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
