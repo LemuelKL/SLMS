@@ -20,7 +20,7 @@
    <string>Dialog</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="resource.qrc">
+   <iconset>
     <normaloff>:/remix_icons/resources/icons/file-add-line.svg</normaloff>:/remix_icons/resources/icons/file-add-line.svg</iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout">
@@ -227,8 +227,8 @@
           <string>Submit</string>
          </property>
          <property name="icon">
-          <iconset resource="resource.qrc">
-           <normaloff>:/remix_icons/resources/icons/file-add-line.svg</normaloff>:/remix_icons/resources/icons/file-add-line.svg</iconset>
+          <iconset resource="resources.qrc">
+           <normaloff>:/remix_icons/resources/icons/send-plane-2-line.svg</normaloff>:/remix_icons/resources/icons/send-plane-2-line.svg</iconset>
          </property>
         </widget>
        </item>
@@ -239,7 +239,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="resource.qrc"/>
+  <include location="resources.qrc"/>
  </resources>
  <connections/>
 </ui>

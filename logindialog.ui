@@ -20,7 +20,7 @@
    <string>Login Window</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="resource.qrc">
+   <iconset>
     <normaloff>:/remix_icons/resources/icons/login-circle-line.svg</normaloff>:/remix_icons/resources/icons/login-circle-line.svg</iconset>
   </property>
   <property name="windowOpacity">
@@ -101,7 +101,7 @@
      <string>Login</string>
     </property>
     <property name="icon">
-     <iconset resource="resource.qrc">
+     <iconset>
       <normaloff>:/remix_icons/resources/icons/key-2-line.svg</normaloff>:/remix_icons/resources/icons/key-2-line.svg</iconset>
     </property>
    </widget>
@@ -141,8 +141,6 @@
   <tabstop>lineEdit_password</tabstop>
   <tabstop>pushButton_login</tabstop>
  </tabstops>
- <resources>
-  <include location="resource.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

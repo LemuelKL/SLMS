@@ -24,8 +24,8 @@ private slots:
 
     void SaveImageToDisk();
 private:
-    QNetworkAccessManager m_WebCtrl;
-    QByteArray m_DownloadedData;
+    QNetworkAccessManager m_webCtrl;
+    QByteArray m_downloadedData;
 
     QString isbn13_;
 

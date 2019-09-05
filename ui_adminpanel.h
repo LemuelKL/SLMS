@@ -150,7 +150,7 @@ public:
         AdminPanel->setSizePolicy(sizePolicy);
         AdminPanel->setMinimumSize(QSize(1130, 662));
         QIcon icon;
-        icon.addFile(QString::fromUtf8(":/remix_icons/release/resources/icons/admin-line.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        icon.addFile(QString::fromUtf8(":/remix_icons/resources/icons/admin-line.svg"), QSize(), QIcon::Normal, QIcon::Off);
         AdminPanel->setWindowIcon(icon);
         centralwidget = new QWidget(AdminPanel);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
@@ -334,7 +334,7 @@ public:
         pushButton_reloadLoans->setMinimumSize(QSize(0, 50));
         pushButton_reloadLoans->setMaximumSize(QSize(130, 50));
         QIcon icon1;
-        icon1.addFile(QString::fromUtf8(":/remix_icons/release/resources/icons/refresh-line.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        icon1.addFile(QString::fromUtf8(":/remix_icons/resources/icons/refresh-line.svg"), QSize(), QIcon::Normal, QIcon::Off);
         pushButton_reloadLoans->setIcon(icon1);
 
         horizontalLayout->addWidget(pushButton_reloadLoans);
@@ -427,7 +427,7 @@ public:
         sizePolicy5.setHeightForWidth(pushButton_addBook->sizePolicy().hasHeightForWidth());
         pushButton_addBook->setSizePolicy(sizePolicy5);
         QIcon icon2;
-        icon2.addFile(QString::fromUtf8(":/remix_icons/release/resources/icons/file-add-line.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        icon2.addFile(QString::fromUtf8(":/remix_icons/resources/icons/file-add-line.svg"), QSize(), QIcon::Normal, QIcon::Off);
         pushButton_addBook->setIcon(icon2);
 
         horizontalLayout_22->addWidget(pushButton_addBook);
@@ -437,7 +437,7 @@ public:
         sizePolicy5.setHeightForWidth(pushButton_deleteRecords->sizePolicy().hasHeightForWidth());
         pushButton_deleteRecords->setSizePolicy(sizePolicy5);
         QIcon icon3;
-        icon3.addFile(QString::fromUtf8(":/remix_icons/release/resources/icons/delete-bin-2-line.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        icon3.addFile(QString::fromUtf8(":/remix_icons/resources/icons/delete-bin-2-line.svg"), QSize(), QIcon::Normal, QIcon::Off);
         pushButton_deleteRecords->setIcon(icon3);
 
         horizontalLayout_22->addWidget(pushButton_deleteRecords);
@@ -452,7 +452,7 @@ public:
         sizePolicy5.setHeightForWidth(pushButton_editBook->sizePolicy().hasHeightForWidth());
         pushButton_editBook->setSizePolicy(sizePolicy5);
         QIcon icon4;
-        icon4.addFile(QString::fromUtf8(":/remix_icons/release/resources/icons/file-edit-line.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        icon4.addFile(QString::fromUtf8(":/remix_icons/resources/icons/file-edit-line.svg"), QSize(), QIcon::Normal, QIcon::Off);
         pushButton_editBook->setIcon(icon4);
 
         horizontalLayout_10->addWidget(pushButton_editBook);
@@ -725,7 +725,7 @@ public:
         font.setPointSize(8);
         pushButton_updateView->setFont(font);
         QIcon icon5;
-        icon5.addFile(QString::fromUtf8(":/remix_icons/release/resources/icons/search-eye-line.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        icon5.addFile(QString::fromUtf8(":/remix_icons/resources/icons/search-eye-line.svg"), QSize(), QIcon::Normal, QIcon::Off);
         pushButton_updateView->setIcon(icon5);
 
         verticalLayout_2->addWidget(pushButton_updateView);
@@ -787,7 +787,7 @@ public:
         pushButton->setSizePolicy(sizePolicy4);
         pushButton->setMinimumSize(QSize(0, 70));
         QIcon icon6;
-        icon6.addFile(QString::fromUtf8(":/remix_icons/release/resources/icons/send-plane-2-line.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        icon6.addFile(QString::fromUtf8(":/remix_icons/resources/icons/send-plane-2-line.svg"), QSize(), QIcon::Normal, QIcon::Off);
         pushButton->setIcon(icon6);
 
         horizontalLayout_12->addWidget(pushButton);

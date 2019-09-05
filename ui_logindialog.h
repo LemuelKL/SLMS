@@ -38,7 +38,7 @@ public:
         sizePolicy.setHeightForWidth(LoginDialog->sizePolicy().hasHeightForWidth());
         LoginDialog->setSizePolicy(sizePolicy);
         QIcon icon;
-        icon.addFile(QString::fromUtf8(":/remix_icons/release/resources/icons/login-circle-line.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        icon.addFile(QString::fromUtf8(":/remix_icons/resources/icons/login-circle-line.svg"), QSize(), QIcon::Normal, QIcon::Off);
         LoginDialog->setWindowIcon(icon);
         LoginDialog->setWindowOpacity(1.000000000000000);
         groupBox = new QGroupBox(LoginDialog);
@@ -69,7 +69,7 @@ public:
         font2.setPointSize(11);
         pushButton_login->setFont(font2);
         QIcon icon1;
-        icon1.addFile(QString::fromUtf8(":/remix_icons/release/resources/icons/key-2-line.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        icon1.addFile(QString::fromUtf8(":/remix_icons/resources/icons/key-2-line.svg"), QSize(), QIcon::Normal, QIcon::Off);
         pushButton_login->setIcon(icon1);
         lineEdit_username = new QLineEdit(groupBox);
         lineEdit_username->setObjectName(QString::fromUtf8("lineEdit_username"));

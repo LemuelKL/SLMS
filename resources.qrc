@@ -1,32 +1,32 @@
 <RCC>
     <qresource prefix="/remix_icons">
-        <file>resources/icons/check-line.svg</file>
-        <file>resources/icons/close-line.svg</file>
-        <file>resources/icons/question-line.svg</file>
-        <file>resources/icons/login-circle-line.svg</file>
         <file>resources/icons/admin-line.svg</file>
-        <file>resources/icons/key-line.svg</file>
-        <file>resources/icons/key-2-line.svg</file>
         <file>resources/icons/arrow-go-back-line.svg</file>
-        <file>resources/icons/delete-bin-2-line.svg</file>
-        <file>resources/icons/file-add-line.svg</file>
-        <file>resources/icons/refresh-line.svg</file>
-        <file>resources/icons/search-eye-line.svg</file>
-        <file>resources/icons/file-copy-line.svg</file>
-        <file>resources/icons/mail-send-line.svg</file>
-        <file>resources/icons/send-plane-2-line.svg</file>
         <file>resources/icons/ball-pen-line.svg</file>
         <file>resources/icons/book-2-line.svg</file>
         <file>resources/icons/book-line.svg</file>
         <file>resources/icons/bookmark-2-line.svg</file>
-        <file>resources/icons/computer-line.svg</file>
-        <file>resources/icons/hashtag.svg</file>
         <file>resources/icons/calendar-event-line.svg</file>
         <file>resources/icons/calendar-line.svg</file>
+        <file>resources/icons/check-line.svg</file>
+        <file>resources/icons/close-line.svg</file>
+        <file>resources/icons/computer-line.svg</file>
         <file>resources/icons/database-2-line.svg</file>
-        <file>resources/icons/file-text-line.svg</file>
-        <file>resources/icons/user-received-line.svg</file>
+        <file>resources/icons/delete-bin-2-line.svg</file>
+        <file>resources/icons/file-add-line.svg</file>
+        <file>resources/icons/file-copy-line.svg</file>
         <file>resources/icons/file-edit-line.svg</file>
+        <file>resources/icons/file-text-line.svg</file>
+        <file>resources/icons/hashtag.svg</file>
+        <file>resources/icons/key-2-line.svg</file>
+        <file>resources/icons/key-line.svg</file>
+        <file>resources/icons/login-circle-line.svg</file>
+        <file>resources/icons/mail-send-line.svg</file>
+        <file>resources/icons/question-line.svg</file>
+        <file>resources/icons/refresh-line.svg</file>
+        <file>resources/icons/search-eye-line.svg</file>
+        <file>resources/icons/send-plane-2-line.svg</file>
+        <file>resources/icons/user-received-line.svg</file>
     </qresource>
     <qresource prefix="/book_statuses">
         <file>resources/images/book_statuses/book_available.png</file>

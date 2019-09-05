@@ -14,12 +14,12 @@ BookCoverDownloader::BookCoverDownloader(QString isbn13, QObject *parent) :
     qDebug() << "Downloading from" << url.toString();
 
     connect(
-    &m_WebCtrl, SIGNAL (finished(QNetworkReply*)),
+    &m_webCtrl, SIGNAL (finished(QNetworkReply*)),
     this, SLOT (BookCoverDownloaded(QNetworkReply*))
     );
 
     QNetworkRequest request(image_url);
-    m_WebCtrl.get(request);
+    m_webCtrl.get(request);
 }
 
 BookCoverDownloader::~BookCoverDownloader() { }
@@ -36,7 +36,7 @@ void BookCoverDownloader::BookCoverDownloaded(QNetworkReply* pReply)
         QUrl new_url = pReply->attribute(QNetworkRequest::RedirectionTargetAttribute).toUrl();
         qDebug() << "Redirected to " + new_url.toString();
         QNetworkRequest new_request(new_url);
-        m_WebCtrl.get(new_request);
+        m_webCtrl.get(new_request);
         return;
     }
     if(statusCode == 404)
@@ -51,8 +51,8 @@ void BookCoverDownloader::BookCoverDownloaded(QNetworkReply* pReply)
     }
 
     qDebug() << pReply->error();
-    m_DownloadedData = bytes;
-    qDebug() << "Downloaded:" << m_DownloadedData.size() << "Bytes";
+    m_downloadedData = bytes;
+    qDebug() << "Downloaded:" << m_downloadedData.size() << "Bytes";
     SaveImageToDisk();
     pReply->deleteLater();
 }
@@ -65,7 +65,7 @@ void BookCoverDownloader::SaveImageToDisk()
     save_path += isbn13_;
     save_path += ".jpg";
     QPixmap book_cover;
-    book_cover.loadFromData(m_DownloadedData);
+    book_cover.loadFromData(m_downloadedData);
     qDebug() << isbn13_ + ".jpg" << book_cover;
     qDebug() << "Saving" << isbn13_ + ".jpg" << "at" << save_path << book_cover.save(save_path);
 }

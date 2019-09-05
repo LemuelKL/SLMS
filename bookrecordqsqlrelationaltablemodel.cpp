@@ -38,13 +38,13 @@ QVariant BookRecordQSqlRelationalTableModel::data(const QModelIndex & index, int
         QVariant value = QSqlRelationalTableModel::data(index_status, Qt::DisplayRole);
         QPixmap book_icon;
         if (Status::StringToEnum(value.toString()) == Status::UNKNOWN)
-            book_icon = QPixmap(":/book_statuses/resources/images/book_statuses/book_unknown.png");
+            book_icon = QPixmap(":/book_statuses/release/release/images/book_statuses/book_unknown.png");
         if (Status::StringToEnum(value.toString()) == Status::AVAILABLE)
-            book_icon = QPixmap(":/book_statuses/resources/images/book_statuses/book_available.png");
+            book_icon = QPixmap(":/book_statuses/release/release/images/book_statuses/book_available.png");
         if (Status::StringToEnum(value.toString()) == Status::ON_LOAN)
-            book_icon = QPixmap(":/book_statuses/resources/images/book_statuses/book_onLoan.png");
+            book_icon = QPixmap(":/book_statuses/release/release/images/book_statuses/book_onLoan.png");
         if (Status::StringToEnum(value.toString()) == Status::LOST)
-            book_icon = QPixmap(":/book_statuses/resources/images/book_statuses/book_lost.png");
+            book_icon = QPixmap(":/book_statuses/release/release/images/book_statuses/book_lost.png");
 
         book_icon = book_icon.scaled(32, 32, Qt::KeepAspectRatio);
         return book_icon;

@@ -57,7 +57,7 @@ public:
         sizePolicy.setHeightForWidth(EditBookRecordDialog->sizePolicy().hasHeightForWidth());
         EditBookRecordDialog->setSizePolicy(sizePolicy);
         QIcon icon;
-        icon.addFile(QString::fromUtf8(":/remix_icons/release/resources/icons/file-edit-line.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        icon.addFile(QString::fromUtf8(":/remix_icons/resources/icons/file-edit-line.svg"), QSize(), QIcon::Normal, QIcon::Off);
         EditBookRecordDialog->setWindowIcon(icon);
         gridLayout = new QGridLayout(EditBookRecordDialog);
         gridLayout->setObjectName(QString::fromUtf8("gridLayout"));

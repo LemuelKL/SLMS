@@ -26,7 +26,7 @@
    <string>Admin Panel</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="resource.qrc">
+   <iconset>
     <normaloff>:/remix_icons/resources/icons/admin-line.svg</normaloff>:/remix_icons/resources/icons/admin-line.svg</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -386,7 +386,7 @@
 Loan Records</string>
                     </property>
                     <property name="icon">
-                     <iconset resource="resource.qrc">
+                     <iconset>
                       <normaloff>:/remix_icons/resources/icons/refresh-line.svg</normaloff>:/remix_icons/resources/icons/refresh-line.svg</iconset>
                     </property>
                    </widget>
@@ -582,7 +582,7 @@ Loan Records</string>
 New Books</string>
                      </property>
                      <property name="icon">
-                      <iconset resource="resource.qrc">
+                      <iconset resource="resources.qrc">
                        <normaloff>:/remix_icons/resources/icons/file-add-line.svg</normaloff>:/remix_icons/resources/icons/file-add-line.svg</iconset>
                      </property>
                     </widget>
@@ -601,7 +601,7 @@ Selected
 Books</string>
                      </property>
                      <property name="icon">
-                      <iconset resource="resource.qrc">
+                      <iconset>
                        <normaloff>:/remix_icons/resources/icons/delete-bin-2-line.svg</normaloff>:/remix_icons/resources/icons/delete-bin-2-line.svg</iconset>
                      </property>
                     </widget>
@@ -624,7 +624,7 @@ Selected
 Books</string>
                      </property>
                      <property name="icon">
-                      <iconset resource="resource.qrc">
+                      <iconset>
                        <normaloff>:/remix_icons/resources/icons/file-edit-line.svg</normaloff>:/remix_icons/resources/icons/file-edit-line.svg</iconset>
                      </property>
                     </widget>
@@ -649,7 +649,7 @@ Books
 From DB</string>
                      </property>
                      <property name="icon">
-                      <iconset resource="resource.qrc">
+                      <iconset>
                        <normaloff>:/remix_icons/resources/icons/refresh-line.svg</normaloff>:/remix_icons/resources/icons/refresh-line.svg</iconset>
                      </property>
                     </widget>
@@ -1085,7 +1085,7 @@ From DB</string>
                       <string>Search</string>
                      </property>
                      <property name="icon">
-                      <iconset resource="resource.qrc">
+                      <iconset>
                        <normaloff>:/remix_icons/resources/icons/search-eye-line.svg</normaloff>:/remix_icons/resources/icons/search-eye-line.svg</iconset>
                      </property>
                     </widget>
@@ -1196,7 +1196,7 @@ From DB</string>
                 <string>Submit</string>
                </property>
                <property name="icon">
-                <iconset resource="resource.qrc">
+                <iconset>
                  <normaloff>:/remix_icons/resources/icons/send-plane-2-line.svg</normaloff>:/remix_icons/resources/icons/send-plane-2-line.svg</iconset>
                </property>
               </widget>
@@ -1232,7 +1232,7 @@ From DB</string>
   <tabstop>lineEdit</tabstop>
  </tabstops>
  <resources>
-  <include location="resource.qrc"/>
+  <include location="resources.qrc"/>
  </resources>
  <connections/>
 </ui>
