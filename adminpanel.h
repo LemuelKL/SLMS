@@ -121,11 +121,10 @@ private slots:
     void UpdateNumBookToLabel(int num);
     void UpdateNumLoanToLabel(int num);
     void UpdateNumOverdueToLabel(int num);
-    void on_checkBox_searchInViewOnly_stateChanged(int arg1);
 
     void DownloadBookCover(QString isbn13);
 
-    void HandleCurrentViewVerticalScrollBarValueChanged();
+    void UpdateSearchNumLabel();
 
 private:
     Ui::AdminPanel *ui;
